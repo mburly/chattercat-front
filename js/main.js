@@ -10,6 +10,7 @@ function appendButtons(id)
 }
 
 function callIndex() {
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
     $.get("php/index.php", function(data, status) {
         var data = JSON.parse(data);
         hide("mainLoad");
@@ -48,6 +49,7 @@ function listeners() {
         }
         else {
             remove(state);
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
             show("main");
             state = "main";
             document.title = "Home - Chattercat"
@@ -171,6 +173,7 @@ function listeners() {
 
 function loadChannelPage(id)
 {
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
     var channel = id.split("-")[0];
     var xhr = new XMLHttpRequest();
 	xhr.open("POST", "php/stats.php", false);

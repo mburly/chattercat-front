@@ -1,19 +1,47 @@
 if(document.cookie == "") {
     window.location.replace("index.html");
 }
-
 var state = "main";
-
 window.onload = function() {
     startTime();
     loadStatus();
     loadConsole();
+	loadMainData();
     init();
 };
 listeners();
 setInterval(function(){
     loadMainData()
-},10000);
+},5000);
+
+
+class Counter {
+	constructor(startDelay, endDelay) {
+		this.startDelay = startDelay || 50;
+		this.endDelay = endDelay || this.startDelay;
+	}
+	runCounter(objID, start, finish) {
+		if (isNaN(start) || isNaN(finish)) {
+			return;
+		}
+		if (finish - start === 0) {
+			return;
+		}
+		const obj = document.getElementById(objID);
+		let num = start;
+		let delay = this.startDelay;
+		let delayOffset = Math.floor((this.endDelay - this.startDelay) / (finish - start));
+		let timerStep = function() {
+			if (num <= finish) {
+				obj.innerHTML = num.toLocaleString("en-US");
+				delay += delayOffset;
+				num += 1;
+				setTimeout(timerStep, delay/3);
+			}
+		}
+		timerStep();
+	}
+}
 
 
 function loadConsole() {
@@ -67,17 +95,10 @@ function callAdmin() {
         }
         remove("usernameLoader");
         $('.username').text(data["username"]);
-        remove("emotesLoggedLoader");
         $('#emotesLogged').text(data["numEmotes"].toLocaleString("en-US"));
-        remove("channelsTrackedLoader");
         $('#channelsTracked').text(data["numChannels"].toLocaleString("en-US"));
-        remove("messagesLoggedLoader");
         $('#messagesLogged').text(data["numMessages"].toLocaleString("en-US"));
-        remove("numChannelsOnlineLoader");
         $('#channelsTracking').text(data["numChannelsOnline"].toLocaleString("en-US"));
-        // $('#numTwitchEmotes').text(data["numTwitchEmotes"].toLocaleString("en-US"));
-        // $('#numBTTVEmotes').text(data["numBTTVEmotes"].toLocaleString("en-US"));
-        // $('#numFFZEmotes').text(data["numFFZEmotes"].toLocaleString("en-US"));
     });
 }
 
@@ -130,11 +151,10 @@ function loadMainData() {
                 $('.username').text(data["username"]);
                 $('#emotesLogged').text(data["numEmotes"].toLocaleString("en-US"));
                 $('#channelsTracked').text(data["numChannels"].toLocaleString("en-US"));
-                $('#messagesLogged').text(data["numMessages"].toLocaleString("en-US"));
+				var oldNum = parseInt(document.getElementById('messagesLogged').innerHTML.replaceAll(",",""));
+				let countUp = new Counter();
+				countUp.runCounter("messagesLogged",oldNum,data["numMessages"]);				
                 $('#channelsTracking').text(data["numChannelsOnline"].toLocaleString("en-US"));
-                // $('#numTwitchEmotes').text(data["numTwitchEmotes"].toLocaleString("en-US"));
-                // $('#numBTTVEmotes').text(data["numBTTVEmotes"].toLocaleString("en-US"));
-                // $('#numFFZEmotes').text(data["numFFZEmotes"].toLocaleString("en-US"));
             });
         }
     });
@@ -155,7 +175,12 @@ function loadStatus() {
 }
 
 function remove(id) {
-    document.getElementById(id).remove();
+	try {
+		document.getElementById(id).remove();
+	}
+	catch(err) {
+		console.log(err);
+	}
 }
 
 function startTime() {
