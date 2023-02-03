@@ -26,6 +26,7 @@ li {
 }
 
 .window-body {
+    margin:0 !important;
     color:purple;
 }
 
@@ -199,7 +200,7 @@ li {
 }
 
 .window-group {
-    width:fit-content;
+    text-align:center;
     margin-left:auto;
     margin-right:auto;
 }
@@ -270,6 +271,7 @@ li {
     background-color:rebeccapurple;
     padding:2px;
     width:-moz-fit-content;
+    margin-top:2%;
     margin-left:auto;
     margin-right:auto;
 }
@@ -293,6 +295,7 @@ li {
 }
 
 #chatterLeaderboard {
+    text-align:start;
     width:fit-content;
     margin-left:auto;
     margin-right:auto;
@@ -329,6 +332,7 @@ li {
 }
 
 .emote-name-section {
+    text-align:start;
     width:300px;
 }
 
@@ -393,6 +397,7 @@ hr {
     } 
 
 .category-name {
+    text-align:start;
     width:222px;
 }
 
@@ -657,6 +662,9 @@ hr {
 }
 
 .stats-type {
+    background-color:purple;
+    color:white;
+    padding:3px;
     margin-left:auto;
     margin-right:auto;
     font-weight:700;
@@ -664,7 +672,13 @@ hr {
 }
 
 .stats-type-small {
+    background-color:purple;
+    color:white;
+    padding:3px;
+    width:fit-content;
     font-weight:700;
+    margin-left:auto;
+    margin-right:auto;
 }
 
 #channelsTracked {
@@ -753,4 +767,78 @@ hr {
 .emote-breakdown-counter {
     display:inline-block;
     width:50px;
+}
+
+.emote-log {
+    text-align:start;
+}
+
+.log-icon {
+    border:2px solid purple;
+    border-radius:50%;
+}
+
+.log-item {
+    background:#dfdfdf;
+    margin:0;
+    padding:2px;
+}
+
+.log-item:not(:last-child) {
+    border-bottom:1px solid black;
+}
+
+.badge {
+    display:inline-block;
+    padding:5px;
+    color:white;
+    border-radius:0.375rem;
+    line-height:1;
+    background-color:#6c757d;
+}
+
+.log-date {
+    margin-left:5px;
+    margin-right:5px;
+}
+
+.log-channel-name {
+    margin-left:3px !important;
+    margin-right:3px;
+}
+
+.log-emote-name {
+    margin-left:1px !important;
+    margin-right:auto;
+}
+
+.log-type {
+    width:65px;
+}
+
+.text-enabled {
+    color:green; 
+    text-align: center;
+}
+
+.text-disabled {
+    color:red;
+    text-align: center;
+}
+
+.text-reactivated {
+    color:#6c757d;
+    text-align: center;
+}
+
+#updatesPanel {
+    width:fit-content;
+    margin-top:50px;
+    overflow:scroll;
+    max-height:200px;
+}
+
+.no-updates-text {
+    text-align:center;
+    opacity:50%;
 }

@@ -13,6 +13,16 @@ listeners();
 setInterval(function(){
     loadMainData()
 },5000);
+// on focus, set window_focus = true.
+$(window).focus(function() {
+    window_focus = true;
+});
+
+// when the window loses focus, set window_focus to false
+$(window).focusout(function() {
+    window_focus = true;
+});
+
 
 
 class Counter {
@@ -46,7 +56,7 @@ class Counter {
 
 function loadConsole() {
     $.get("php/admin.php", function(data, status) {
-        console.log(data)
+        console.log(data);
         var data = JSON.parse(data);
         if(data["error"] != "") {
             window.location.replace("index.html");

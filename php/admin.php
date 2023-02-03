@@ -34,107 +34,103 @@
         else {
 
             $sql = 'SELECT a.username as username FROM admins a INNER JOIN adminsessions ads ON a.id=ads.userId WHERE token = "' . $_COOKIE["cc_admin_token"] . '";';
-            $result = $conn->query($sql);
+	    $result = $conn->query($sql);
             $username = "";
 
             if($result->num_rows > 0) {
                 $username = $result->fetch_assoc()["username"];
+                $channels = getChannels($conn);
+                $numChannels = count($channels);
+    
+                $executing = 0;
+                $executeStart = null;
+                $sql = 'SELECT * FROM executions ORDER BY id DESC LIMIT 1;';
+                $result = $conn->query($sql);
+                if($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        if($row["end"] == null) {
+                            $executing = 1;
+                            $executeStart = $row["start"];
+                        }
+                    }
+    
+                    $numChannelsOnline = 0;
+                    $numMessages = 0;
+    
+                    foreach($channels as $channel) {
+                        $conn2 = new mysqli($host, $user, $password, $channel);
+                        if($conn2->connect_error) {
+                            returnWithError($conn->connect_error);
+                        }
+                        else {
+                            $sql = 'SELECT COUNT(id) as num_messages FROM messages;';
+                            $result = $conn2->query($sql);
+                            $count = $result->fetch_assoc()["num_messages"];
+                            if($count != null) {
+                                $numMessages = $numMessages + $count;
+                            }
+    
+                            $sql = 'SELECT end_datetime FROM sessions ORDER BY id DESC LIMIT 1;';
+                            $result = $conn2->query($sql);
+                            $count = $result->fetch_assoc()["end_datetime"];
+                            if($count == null) {
+                                $numChannelsOnline = $numChannelsOnline + 1;
+                            }
+    
+                        }
+                    }
+    
+    
+                    $sql = 'SELECT * FROM executionlog ORDER BY id DESC LIMIT 100;';
+                    $result = $conn->query($sql);
+    
+                    $consoleDatetimes = array();
+                    $consoleTypes = array();
+                    $consoleChannels = array();
+                    $consoleMessages = array();
+    
+                    while($row = $result->fetch_assoc()) {
+                        array_push($consoleDatetimes, $row["datetime"]);
+                        array_push($consoleTypes, $row["type"]);
+                        array_push($consoleChannels, $row["channel"]);
+                        array_push($consoleMessages, $row["message"]);
+                    }
+    
+                }
+                $cwd = getcwd();
+                $dir = explode("php", $cwd)[0] . "emotes";
+                $dirs = array();
+                array_push($dirs, $dir . "\\twitch");
+                array_push($dirs, $dir . "\\bttv");
+                array_push($dirs, $dir . "\\ffz");
+    
+                $numEmotes = 0;
+                $numTwitchEmotes = 0;
+                $numBTTVEmotes = 0;
+                $numFFZEmotes = 0;
+                $counter = 0;
+    
+                foreach($dirs as $dir) {
+                    $fi = new FilesystemIterator($dir);
+                    $numEmotes = $numEmotes + iterator_count($fi);
+                    if($counter == 0) {
+                        $numTwitchEmotes = iterator_count($fi);
+                    }
+                    else if($counter == 1) {
+                        $numBTTVEmotes = iterator_count($fi);
+                    }
+                    else if($counter == 2) {
+                        $numFFZEmotes = iterator_count($fi);
+                    }
+                    $counter = $counter + 1;
+                }
+    
+                returnInfo($username, $executing, $executeStart, $numChannels, $numMessages, $numEmotes, $consoleDatetimes, $consoleChannels, $consoleMessages, $consoleTypes, $numTwitchEmotes, $numBTTVEmotes, $numFFZEmotes, $numChannelsOnline);
+    
             }
             else {
                 returnWithError("no admin credentials");
             }
-
-            $channels = getChannels($conn);
-            $numChannels = count($channels);
-
-            $executing = 0;
-            $executeStart = null;
-            $sql = 'SELECT * FROM executions ORDER BY id DESC LIMIT 1;';
-            $result = $conn->query($sql);
-            if($result->num_rows > 0) {
-                while($row = $result->fetch_assoc()) {
-                    if($row["end"] == null) {
-                        $executing = 1;
-                        $executeStart = $row["start"];
-                    }
-                }
-
-                $numChannelsOnline = 0;
-                $numMessages = 0;
-
-                foreach($channels as $channel) {
-                    $conn2 = new mysqli($host, $user, $password, $channel);
-                    if($conn2->connect_error) {
-                        returnWithError($conn->connect_error);
-                    }
-                    else {
-                        $sql = 'SELECT COUNT(id) as num_messages FROM messages;';
-                        $result = $conn2->query($sql);
-                        $count = $result->fetch_assoc()["num_messages"];
-                        if($count != null) {
-                            $numMessages = $numMessages + $count;
-                        }
-
-                        $sql = 'SELECT end_datetime FROM sessions ORDER BY id DESC LIMIT 1;';
-                        $result = $conn2->query($sql);
-                        $count = $result->fetch_assoc()["end_datetime"];
-                        if($count == null) {
-                            $numChannelsOnline = $numChannelsOnline + 1;
-                        }
-
-                    }
-                }
-
-
-                $sql = 'SELECT * FROM executionlog ORDER BY id DESC LIMIT 100;';
-                $result = $conn->query($sql);
-
-                $consoleDatetimes = array();
-                $consoleTypes = array();
-                $consoleChannels = array();
-                $consoleMessages = array();
-
-                while($row = $result->fetch_assoc()) {
-                    array_push($consoleDatetimes, $row["datetime"]);
-                    array_push($consoleTypes, $row["type"]);
-                    array_push($consoleChannels, $row["channel"]);
-                    array_push($consoleMessages, $row["message"]);
-                }
-
-            }
-            else {
-                returnWithError("No executions in database.");
-            }
-
-            $cwd = getcwd();
-            $dir = explode("php", $cwd)[0] . "emotes";
-            $dirs = array();
-            array_push($dirs, $dir . "\\twitch");
-            array_push($dirs, $dir . "\\bttv");
-            array_push($dirs, $dir . "\\ffz");
-
-            $numEmotes = 0;
-            $numTwitchEmotes = 0;
-            $numBTTVEmotes = 0;
-            $numFFZEmotes = 0;
-            $counter = 0;
-
-            foreach($dirs as $dir) {
-                $fi = new FilesystemIterator($dir);
-                $numEmotes = $numEmotes + iterator_count($fi);
-                if($counter == 0) {
-                    $numTwitchEmotes = iterator_count($fi);
-                }
-                else if($counter == 1) {
-                    $numBTTVEmotes = iterator_count($fi);
-                }
-                else if($counter == 2) {
-                    $numFFZEmotes = iterator_count($fi);
-                }
-                $counter = $counter + 1;
-            }
-
-            returnInfo($username, $executing, $executeStart, $numChannels, $numMessages, $numEmotes, $consoleDatetimes, $consoleChannels, $consoleMessages, $consoleTypes, $numTwitchEmotes, $numBTTVEmotes, $numFFZEmotes, $numChannelsOnline);
         }
     }
 

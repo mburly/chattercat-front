@@ -129,6 +129,10 @@ function listeners() {
         }
         else {
             $.get("php/validate.php", function(data, status) {
+                if(data == "") {
+                    showLoginPage();
+                    return;
+                }
                 var data = JSON.parse(data);
                 if(data["error"] == "invalid token") {
                     document.cookie = "cc_admin_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
@@ -185,7 +189,40 @@ function loadChannelPage(id)
         hide("main");
         document.title = channel + " - Chattercat"
 
-        generateChannelPage();
+        generateChannelPage(channel);
+
+        var log_xhr = new XMLHttpRequest();
+        log_xhr.open("POST", "php/updates.php", false);
+        log_xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        var jsonPayload = '{"channel" : "' + channel + '"}';
+        log_xhr.send(jsonPayload);
+        if(log_xhr.responseText == "") {
+            $('.emote-log').append('<div class="no-updates-text">No updates</div>');
+        }
+        else {
+            console.log(log_xhr.responseText);
+            var log_data = JSON.parse(log_xhr.responseText);
+            for(let i = 0; i < 20; i++) {
+                var id = 'log-' + i;
+                console.log(id);
+                if(log_data[id] == null) {
+                    break;
+                }
+                var date = log_data[id]["datetime"].split(' ')[0].split('-');
+                date = date[1].replace('0','') + '/' + date[2].replace('0','') + '/' + date[0];
+                console.log(date);
+                if(log_data[id]["type"] == "disabled") {
+                    $('.emote-log').append('<li class="log-item"><span class="badge log-date">' + date +'</span><img class="channel-icon log-icon" src="pictures/' + channel + '.png"><span class="channel-name log-channel-name">' + channel + '</span><span class="log-type text-disabled">disabled</span><img class="emote log-emote" src="' + log_data[id]["path"] +'"><span class="emote-name log-emote-name">' + log_data[id]["emote"] +'</span></li>');
+                }
+                else if(log_data[id]["type"] == "enabled") {
+                    $('.emote-log').append('<li class="log-item"><span class="badge log-date">' + date +'</span><img class="channel-icon log-icon" src="pictures/' + channel + '.png"><span class="channel-name log-channel-name">' + channel + '</span><span class="log-type text-enabled">enabled</span><img class="emote log-emote" src="' + log_data[id]["path"] +'"><span class="emote-name log-emote-name">' + log_data[id]["emote"] +'</span></li>');
+                }
+                else {
+                    $('.emote-log').append('<li class="log-item"><span class="badge log-date">' + date +'</span><img class="channel-icon log-icon" src="pictures/' + channel + '.png"><span class="channel-name log-channel-name">' + channel + '</span><span class="log-type text-reactivated">reactivated</span><img class="emote log-emote" src="' + log_data[id]["path"] +'"><span class="emote-name log-emote-name">' + log_data[id]["emote"] +'</span></li>');
+                }
+                
+            }
+        }
         
         $('#chattersTitleBarText').append(channel + ' - Chatters');
         $('#emotesTitleBarText').append(channel + ' - Emotes');
@@ -375,9 +412,10 @@ function remove(id) {
     document.getElementById(id).remove();
 }
 
-function generateChannelPage()
+function generateChannelPage(channel)
 {
-    document.body.innerHTML += '<div class="window-group" id="statsPage"><div class="window window-group-member"><div class="title-bar"><div class="title-bar-text" id="chattersTitleBarText"><i class="fas fa-cat-space"></i></div></div><div class="window-body" id="chattersWindowBody"><div class="load" id="chattersLoad"><span class="loader"></span></div></div><div class="status-bar" id="chattersStatusBar"></div></div><div class="window window-group-member"><div class="title-bar member-2"><div class="title-bar-text" id="emotesTitleBarText"><i class="fas fa-cat-space"></i></div></div><div class="window-body" id="emotesWindowBody"><div class="load" id="emotesLoad"><span class="loader"></span></div></div><div class="status-bar" id="emotesStatusBar"></div></div><div class="window window-group-member"><div class="title-bar member-3"><div class="title-bar-text" id="messagesTitleBarText"><i class="fas fa-cat-space"></i></div></div><div class="window-body" id="messagesWindowBody"><div class="load"><span class="loader" id="messagesLoad"></span></div></div><div class="status-bar" id="messagesStatusBar"></div></div><div class="window window-group-member"><div class="title-bar member-4"><div class="title-bar-text" id="sessionsTitleBarText"><i class="fas fa-cat-space"></i></div></div><div class="window-body" id="sessionsWindowBody"><div class="load" id="sessionsLoad"><span class="loader"></span></div></div></div></div>';
+    state = "statsPage";
+    document.body.innerHTML += '<div class="window-group" id="statsPage"><div class="window window-group-member"><div class="title-bar"><div class="title-bar-text" id="chattersTitleBarText"><i class="fas fa-cat-space"></i></div></div><div class="window-body" id="chattersWindowBody"><div class="load" id="chattersLoad"><span class="loader"></span></div></div><div class="status-bar" id="chattersStatusBar"></div></div><div class="window window-group-member"><div class="title-bar member-2"><div class="title-bar-text" id="emotesTitleBarText"><i class="fas fa-cat-space"></i></div></div><div class="window-body" id="emotesWindowBody"><div class="load" id="emotesLoad"><span class="loader"></span></div></div><div class="status-bar" id="emotesStatusBar"></div></div><div class="window window-group-member"><div class="title-bar member-3"><div class="title-bar-text" id="messagesTitleBarText"><i class="fas fa-cat-space"></i></div></div><div class="window-body" id="messagesWindowBody"><div class="load"><span class="loader" id="messagesLoad"></span></div></div><div class="status-bar" id="messagesStatusBar"></div></div><div class="window window-group-member"><div class="title-bar member-4"><div class="title-bar-text" id="sessionsTitleBarText"><i class="fas fa-cat-space"></i></div></div><div class="window-body" id="sessionsWindowBody"><div class="load" id="sessionsLoad"><span class="loader"></span></div></div></div><div class="window-group"><div class="window-group-member" id="updates"><div class="window" id="updatesPanel"><div class="title-bar"><div class="title-bar-text"><i class="fas fa-cat-space"></i>' + channel + ' - Emote Update Log</div></div><div class="window-body"><ul class="emote-log"></ul></div></div></div></div></div>';
 }
 
 // mil = military time
