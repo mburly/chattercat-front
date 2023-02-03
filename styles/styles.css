@@ -409,14 +409,17 @@ hr {
 
 .session-start-date {
     width:50px;
+    text-align:start;
 }
 
 .session-start-time {
     width:75px;
+    text-align:start;
 }
 
 .segment-info {
     padding:3px;
+    text-align:start;
 }
 
 .prefix-icon {
@@ -543,6 +546,7 @@ hr {
     position:absolute;
     height:100%;
     width:300px;
+    display:block ruby;
 }
 
 .sidebar-content {
@@ -616,7 +620,7 @@ hr {
     margin-left:2px;
 }
 
-.main-admin {
+#main-admin {
     margin-top:50px;
     width:800px;
 }
@@ -874,4 +878,42 @@ hr {
 .a-icon {
     color:purple;
     font-size:18px;
+}
+
+.admin-title {
+    font-size:16px;
+    font-weight:600;
+    display:inline-block;
+    width:fit-content;
+    margin-top:20px;
+    margin-left:auto;
+    margin-right:auto;
+    background:linear-gradient(180deg,navy,#1084d0);
+    border:1.5px solid black;
+    color:white;
+    border-radius:8%;
+    padding:3px;
+}
+
+.admin-tools-icon {
+    vertical-align: bottom;
+}
+
+#content-admin {
+    color: black;
+    margin-top:30px;
+    background-color:#c6c6c6;
+    border-top:0.5px solid black;
+    padding:3px;
+    text-align: center;
+}
+
+.admin-button {
+    width:fit-content;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.admin-button:not(:first-child) {
+    margin-top:10px;
 }

@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="lib/js/jquery-3.6.1.min.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Housekeeping - Chattercat</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
     <link rel="stylesheet" href="styles/98.css">
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="stylesheet" href="lib/css/fontawesome-pro-6.0.0-web/css/all.css">
     <script src="lib/css/fontawesome-pro-6.0.0-web/js/all.js"></script>
+    <script src="lib/js/jquery-3.6.1.min.js"></script>
 </head>
 <body>
     <div class="head">
@@ -98,26 +99,9 @@
           <div class="window-body">
             <ul class="admin-list">
                 <li class="admin"><img src="images/user_online.gif"><i class="fa-duotone fa-user-robot fa-fw" id="bot" style="font-size:16px;"></i><span>Chattercat</span></li>
-                <!-- <li class="admin">
-                  <img src="images/user_offline2.gif">
-                  <span class="fa-layers fa-fw fa-fw prefix-icon-fixed">
-                    <i class="fas fa-badge fa-2x" style="color:purple;font-size:18px;"></i>
-                    <span class="fa-layers-text fa-inverse" data-fa-transform="right-6 up-1" style="font-weight:900;font-size:10px;color:white;">A</span>
-                </span>
-                <span class="admin-name">rburly</span>
-                </li>
-                <li class="admin">
-                  <img src="images/user_offline2.gif">
-                  <span class="fa-layers fa-fw prefix-icon-fixed">
-                    <i class="fas fa-certificate" style="color:darkred;font-size:18px;--fa-secondary-color: green;"></i>
-                    <span class="fa-layers-text fa-inverse" data-fa-transform="right-8" style="font-weight:900;font-size:8px;">SA</span>
-                </span>
-                <span class="admin-name" style="color:darkred;font-weight:900;">michael</span>
-                </li> -->
             </ul>
           </div>
         </div>
-
     </div>
 
     </div>
@@ -131,11 +115,11 @@
     </div>
 
 
-    <div class="window main-admin">
+    <div class="window" id="main-admin">
         <div class="title-bar window-blue">
           <div class="title-bar-text"><i class="fas fa-cat-space"></i>Chattercat - Housekeeping</div>
         </div>
-        <div class="window-body">
+        <div class="window-body" id="mainAdminBody">
           <div class="content-stats">
             <div class="stats-section">
               <div class="stats-counter" id="emotesLogged"><span class="loader" id="emotesLoggedLoader"></span></div>
@@ -153,15 +137,6 @@
 
           <div class="content-stats" id="subContentStats">
             <div class="stats-section">
-              <!-- <div class="emote-breakdown">
-                <span id="numTwitchEmotes" class="emote-breakdown-counter"></span><span class="emote-breakdown-type">Twitch</span>
-              </div>
-              <div class="emote-breakdown">
-                <span id="numBTTVEmotes" class="emote-breakdown-counter"></span><span class="emote-breakdown-type">BTTV</span>
-              </div>
-              <div class="emote-breakdown">
-                <span id="numFFZEmotes" class="emote-breakdown-counter"></span><span class="emote-breakdown-type">FFZ</span>
-              </div> -->
             </div>
             <div class="stats-section">
               <div class="stats-counter-small" id="channelsTracking"><span class="loader" id="numChannelsOnlineLoader"></span></div>
@@ -171,7 +146,7 @@
             </div>
           </div>
 
-          <div class="content-admin">
+          <div id="content-admin">
 
           </div>
 
