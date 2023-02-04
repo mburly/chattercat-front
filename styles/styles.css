@@ -271,6 +271,7 @@ li {
     background-color:rebeccapurple;
     padding:2px;
     width:-moz-fit-content;
+    margin-top:10px;
     margin-left:auto;
     margin-right:auto;
 }
@@ -403,6 +404,10 @@ hr {
     margin-left:auto;
 }
 
+.session-item {
+    padding:5px;
+}
+
 .session-item:not(:first-child) {
     margin-top:10px;
 }
@@ -457,6 +462,10 @@ hr {
 
 #sessionsActionGroup {
     margin-top:5px;
+}
+
+.emote-item {
+    padding:3px;
 }
 
 .emote-item:not(:first-child) {
@@ -999,4 +1008,12 @@ hr {
 
 #consoleIcon {
     color:white;
+}
+
+#mainActionGroup {
+    margin-top:10px;
+}
+
+.channel {
+    padding:3px;
 }

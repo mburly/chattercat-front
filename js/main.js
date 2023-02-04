@@ -86,8 +86,10 @@ function listeners() {
     });
     
     $('body').on('click','.channel-select',function(){
+        document.body.style.cursor = 'wait';
         var id = $(this).attr('id').split('-')[0];
         loadChannelPage(id);
+        document.body.style.cursor = 'default';
         state = "statsPage";
     });
     
@@ -176,6 +178,7 @@ function listeners() {
     });
     
     $('body').on('click', '.channel-emotes-button',function() {
+        document.body.style.cursor = 'wait';
         var channel = $(this).attr('id').split('-')[0];
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "php/emotes.php", false);
@@ -189,6 +192,7 @@ function listeners() {
         else {
             remove(state);
         }
+        document.body.style.cursor = 'default';
         $('body').append('<div id="channelEmotes"><div class="window" id="channelEmotesWindow"><div class="title-bar"><div class="title-bar-text">' + channel + ' - Emotes</div></div><div class="window-body"><ul class="channel-emotes">');
         for(let i = 0; i < data["codes"].length; i++) {
             var source = "Twitch";
