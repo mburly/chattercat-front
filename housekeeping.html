@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="styles/98.css">
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="stylesheet" href="lib/css/fontawesome-pro-6.0.0-web/css/all.css">
-    <script src="lib/css/fontawesome-pro-6.0.0-web/js/all.js"></script>
     <script src="lib/js/jquery-3.6.1.min.js"></script>
 </head>
 <body>
@@ -49,6 +48,9 @@
           <div class="title-bar-text"><i class="fas fa-face-smile"></i>Emotes</div>
         </div>
         <div class="window-body">
+          <ul class="admin-sidebar-tool-group">
+            <li class="admin-sidebar-tool" id="adminManageEmotesButton">Manage emotes</li>
+          </ul>
         </div>
       </div>
 
@@ -83,7 +85,7 @@
           <div class="title-bar-text"><i class="fas fa-info-circle"></i>Info</div>
         </div>
         <div class="window-body">
-          <ul class="tool-group">
+          <ul class="tool-group admin-sidebar-tool-group">
               <li>Running since:<span id="runtime"></span></li>
               <li>Clock: <span id="clock"></span><span id="timezone">UTC</span></li>
               <li>Powered by: <img class="logo logo-1" src="images/mariadb.svg"><img class="logo logo-2" src="images/php.svg"><img class="logo logo-3" src="images/python.svg"><img class="logo logo-4" src="images/javascript.svg"></li>
@@ -97,7 +99,7 @@
         </div>
           <div class="window-body">
             <ul class="admin-list">
-                <li class="admin"><img src="images/user_online.gif" title="user is online"><i class="fa-duotone fa-user-robot fa-fw" id="bot" style="font-size:16px;"></i><span>Chattercat</span></li>
+                <li class="admin"><img src="images/user_online.gif" title="user is online"><i class="fa-duotone fa-user-robot fa-fw" id="bot" style="font-size:16px;"></i><span class="admin-name">Chattercat</span></li>
             </ul>
             <span class="loader small-loader" id="adminLoader"></span>
           </div>
@@ -105,55 +107,55 @@
     </div>
 
     </div>
-    <div class="window" id="console-window">
-      <div class="title-bar window-blue"><div class="title-bar-text"><i class="fa-solid fa-square-terminal" id="consoleIcon"></i>Chattercat - Console</div></div>
-        <ul class="tree-view" id="console">
-          <div class="load">
-            <span class="loader" id="consoleLoad"></span>
+    <div id="adminContent">
+      <div class="window" id="console-window">
+        <div class="title-bar window-blue"><div class="title-bar-text"><i class="fa-solid fa-square-terminal" id="consoleIcon"></i>Chattercat - Console</div></div>
+          <ul class="tree-view" id="console">
+            <div class="load">
+              <span class="loader" id="consoleLoad"></span>
+            </div>
+          </ul>
+      </div>
+
+
+      <div class="window" id="main-admin">
+          <div class="title-bar window-blue">
+            <div class="title-bar-text"><img class="logo-icon-title" src="images/favicon.png">Chattercat - Housekeeping</div>
           </div>
-        </ul>
+          <div class="window-body" id="mainAdminBody">
+            <div class="content-stats">
+              <div class="stats-section">
+                <div class="stats-counter" id="emotesLogged"><span class="loader" id="emotesLoggedLoader"></span></div>
+                <div class="stats-type">emotes logged</div>
+              </div>
+              <div class="stats-section">
+                <div class="tooltip tooltip-bottom"><div class="stats-counter" id="channelsTracked"><span class="loader" id="channelsTrackedLoader"></span></div><span class="tooltiptext" id="streamsListTooltip"></span></div>
+                <div class="stats-type" id="channelsTrackedText">channels tracked</div>
+              </div>
+              <div class="stats-section">
+                <div class="stats-counter" id="messagesLogged"><span class="loader" id="messagesLoggedLoader"></span></div>
+                <div class="stats-type">messages logged</div>
+              </div>
+            </div>
+
+            <div class="content-stats" id="subContentStats">
+              <div class="stats-section">
+              </div>
+              <div class="stats-section">
+                <div class="stats-counter-small" id="channelsTracking"><span class="loader" id="numChannelsOnlineLoader"></span></div>
+                <div class="stats-type-small" id="channelsTrackingText">channels online</div>
+              </div>
+              <div class="stats-section">
+              </div>
+            </div>
+
+            <div id="content-admin">
+
+            </div>
+
+          </div>
+      </div>
     </div>
-
-
-    <div class="window" id="main-admin">
-        <div class="title-bar window-blue">
-          <div class="title-bar-text"><img class="logo-icon-title" src="images/favicon.png">Chattercat - Housekeeping</div>
-        </div>
-        <div class="window-body" id="mainAdminBody">
-          <div class="content-stats">
-            <div class="stats-section">
-              <div class="stats-counter" id="emotesLogged"><span class="loader" id="emotesLoggedLoader"></span></div>
-              <div class="stats-type">emotes logged</div>
-            </div>
-            <div class="stats-section">
-              <div class="tooltip tooltip-bottom"><div class="stats-counter" id="channelsTracked"><span class="loader" id="channelsTrackedLoader"></span></div><span class="tooltiptext" id="streamsListTooltip"></span></div>
-              <div class="stats-type" id="channelsTrackedText">channels tracked</div>
-            </div>
-            <div class="stats-section">
-              <div class="stats-counter" id="messagesLogged"><span class="loader" id="messagesLoggedLoader"></span></div>
-              <div class="stats-type">messages logged</div>
-            </div>
-          </div>
-
-          <div class="content-stats" id="subContentStats">
-            <div class="stats-section">
-            </div>
-            <div class="stats-section">
-              <div class="stats-counter-small" id="channelsTracking"><span class="loader" id="numChannelsOnlineLoader"></span></div>
-              <div class="stats-type-small" id="channelsTrackingText">channels online</div>
-            </div>
-            <div class="stats-section">
-            </div>
-          </div>
-
-          <div id="content-admin">
-
-          </div>
-
-        </div>
-    </div>
-
-
 
     </div>
     <script src="js/admin.js"></script>

@@ -13,6 +13,14 @@ li {
     align-items: center;
 }
 
+a {
+    color:purple;
+}
+
+th {
+    text-align:center;
+}
+
 .title-bar {
 	background: linear-gradient(90deg,rgb(81, 0, 128),#9310d0);
     user-select: none;
@@ -337,8 +345,9 @@ li {
 }
 
 .emote-name {
-    font-weight:700;
+    font-weight:700 !important;
     margin-left:5px;
+    color:purple !important;
 }
 
 .emote-name:hover {
@@ -853,7 +862,7 @@ hr {
 }
 
 .admin-name {
-    margin-left:10px;
+    margin-left:3px;
 }
 
 .admin-name:hover {
@@ -877,17 +886,6 @@ hr {
     text-align:center;
     margin-top:30%;
     opacity:50%;
-}
-
-.sa-icon {
-    color:darkred;
-    font-size:18px;
-    --fa-secondary-color: green;
-}
-
-.a-icon {
-    color:purple;
-    font-size:18px;
 }
 
 .admin-title {
@@ -1027,4 +1025,154 @@ hr {
 
 #channelEmotesWindow {
     margin-top:50px;
+}
+
+.admin-sidebar-tool-group {
+    padding:5px;
+}
+
+.admin-sidebar-tool:hover {
+    cursor:pointer;
+    text-decoration: underline;
+}
+
+.admin-channel-list {
+    padding:5px;
+}
+
+.manage-emotes-col {
+    display:inline-block;
+}
+
+.manage-emote-row {
+    color:black;
+}
+
+.manage-emotes-emote-image-col {
+    width:24px;
+    height:32px;
+}
+
+.manage-emotes-emote-name-col {
+    width:200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.manage-emotes-emote-count-col {
+    width:25px;
+}
+
+.manage-emotes-emote-url-col {
+    width:160px;
+    overflow:hidden;
+    text-overflow: ellipsis;
+}
+
+.manage-emotes-emote-path-col {
+    width:160px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.manage-emotes-emote-date-col {
+    width:75px;
+}
+
+.manage-emotes-emote-source-col {
+    width:55px;
+    text-align:center;
+}
+
+.manage-emotes-emote-active-col {
+    width:50px;
+    text-align:center;
+}
+
+.manage-emotes-emote-tools-col {
+    width:100px;
+    vertical-align: unset;
+    text-align:center;
+}
+
+.admin-tool:not(:first-child) {
+    margin-left:2px;
+}
+
+.admin-tool:hover {
+    cursor:pointer;
+}
+
+#adminManageEmotes {
+    width:fit-content;
+}
+
+.manage-emotes-emote-image {
+    width:32px;
+}
+
+.delete-tool {
+    box-shadow:inset -1px -1px #0a0a0a,inset 1px 1px #fff,inset -2px -2px grey,inset 2px 2px #dfdfdf;
+    background:darkred;
+    color:white;
+    padding:5px;
+}
+
+.delete-tool:active {
+    box-shadow:none;
+}
+
+.edit-tool {
+    box-shadow:inset -1px -1px #0a0a0a,inset 1px 1px #fff,inset -2px -2px grey,inset 2px 2px #dfdfdf;
+    background:darkgray;
+    color:white;
+    padding:5px;
+}
+
+.download-tool {
+    box-shadow:inset -1px -1px #0a0a0a,inset 1px 1px #fff,inset -2px -2px grey,inset 2px 2px #dfdfdf;
+    background:darkblue;
+    color:white;
+    padding:5px;
+}
+
+.download-tool:active {
+    box-shadow:none;
+}
+
+.edit-tool:active {
+    box-shadow: none;
+}
+
+.admin-tool {
+    display:inline-block;
+    text-align:center;
+    width:15px;
+}
+
+#manageEmotesTable {
+}
+
+#manageEmotesHeaderRow {
+    background-color:purple;
+    color:white;
+}
+
+.channel-emote {
+    width:32px;
+    height:32px;
+}
+
+.emote-Enabled {
+    color:green;
+    margin-top:5px;
+    border-radius:8%;
+    font-weight:700;
+}
+
+.emote-Disabled {
+    color:red;
+    margin-top:5px;
+    border-radius:8%;
+    font-weight:700;
 }

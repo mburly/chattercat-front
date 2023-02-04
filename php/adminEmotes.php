@@ -30,27 +30,39 @@
         returnWithError($conn->connect_error);
     }
     else {
-        $sql = 'SELECT code, count, path, source FROM emotes ORDER BY source DESC, count DESC;';
+        $sql = 'SELECT * FROM emotes ORDER BY count DESC;';
         $result = $conn->query($sql);
-        $codes = '';
-        $paths = '';
-        $sources = '';
         if($result->num_rows > 0) {
+            $codes = '';
+            $counts = '';
+            $urls = '';
+            $paths = '';
+            $dates = '';
+            $sources = '';
+            $active = '';
             while($emote = $result->fetch_assoc()) {
-                $codes .= '"' . addcslashes($emote["code"], '"\\/') . '", ';
-                $paths .= '"' . $emote["path"] . '", ';
-                $sources .= '"' . $emote["source"] . '", ';
+                $codes .= '"' . addcslashes($emote["code"], '"\\/') . '",';
+                $counts .= $emote["count"] . ',';
+                $urls .= '"' . $emote["url"] . '",';
+                $paths .= '"' . $emote["path"] . '",';
+                $dates .= '"' . $emote["date_added"] . '",';
+                $sources .= $emote["source"] . ',';
+                $active .= $emote["active"] . ',';
             }
-            $codes = substr($codes, 0, -2);
-            $paths = substr($paths, 0, -2);
-            $sources = substr($sources, 0, -2);
-            returnInfo($codes, $paths, $sources);
+            $codes = substr($codes, 0, -1);
+            $counts = substr($counts, 0, -1);
+            $urls = substr($urls, 0, -1);
+            $paths = substr($paths, 0, -1);
+            $dates = substr($dates, 0, -1);
+            $sources = substr($sources, 0, -1);
+            $active = substr($active, 0, -1);
+            returnInfo($codes,$counts,$urls,$paths,$dates,$sources,$active);
         }
         else {
 
         }
     }
-    
+
     function getRequestInfo()
     {
         return json_decode(file_get_contents('php://input'), true);
@@ -69,12 +81,17 @@
     }
     
     
-    function returnInfo($codes, $paths, $sources)
+    function returnInfo($codes,$counts,$urls,$paths,$dates,$sources,$active)
     {
         $retVal = '{';
         $retVal .= '"codes":[' . $codes . '],';
+        $retVal .= '"counts":[' . $counts . '],';
+        $retVal .= '"urls":[' . $urls . '],';
         $retVal .= '"paths":[' . $paths . '],';
-        $retVal .= '"sources":[' . $sources . '],"error":""}';
+        $retVal .= '"dates":[' . $dates . '],';
+        $retVal .= '"sources":[' . $sources . '],';
+        $retVal .= '"active":[' . $active . '],';
+        $retVal .= '"error":""}';
         sendResultInfoAsJson($retVal);
     }
 
