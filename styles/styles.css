@@ -884,15 +884,12 @@ hr {
     font-size:16px;
     font-weight:600;
     display:inline-block;
-    width:fit-content;
-    margin-top:20px;
+    width:100%;
     margin-left:auto;
     margin-right:auto;
     background:linear-gradient(180deg,navy,#1084d0);
     border:1.5px solid black;
     color:white;
-    border-radius:8%;
-    padding:3px;
 }
 
 .admin-tools-icon {
@@ -903,17 +900,103 @@ hr {
     color: black;
     margin-top:30px;
     background-color:#c6c6c6;
-    border-top:0.5px solid black;
     padding:3px;
     text-align: center;
 }
 
-.admin-button {
+.actions-list {
     width:fit-content;
     margin-left:auto;
     margin-right:auto;
 }
 
+.admin-button {
+    display:grid;
+    width:110px;
+}
+
 .admin-button:not(:first-child) {
     margin-top:10px;
+}
+
+.admin-title-text {
+    vertical-align:super;
+}
+
+#adminArchiveButton {
+    color:darkblue;
+}
+
+.channel-emotes-button {
+    margin-bottom:5px;
+}
+
+#channelEmotesWindow {
+    width:1000px;
+}
+
+.channel-emote-holder {
+    text-align:center;
+    padding:10px;
+}
+
+.channel-emote {
+    height:48px;
+    width:48px;
+}
+
+.channel-emote-name {
+    display:block;
+    margin-top:3px;
+    color:purple;
+    font-weight:700;
+}
+
+.Twitch-emote {
+    background-color:purple;
+    color:white;
+    margin-top:5px;
+    padding:1px;
+    border-radius:8%;
+    opacity:50%;
+}
+
+.FFZ-emote {
+    background-color:#935635;
+    color:white;
+    margin-top:5px;
+    padding:2px;
+    border-radius:8%;
+    opacity:50%;
+}
+
+.BTTV-emote {
+    background-color:darkblue;
+    color:white;
+    margin-top:5px;
+    padding:2px;
+    border-radius:8%;
+    opacity:50%;
+}
+
+.channel-emotes-list-emote {
+    display:inline-block;
+    width:100px;
+}
+
+.channel-emote-type {
+    display:block;
+}
+
+.channel-emote-image:hover {
+    cursor:pointer;
+}
+
+.logo-icon-title {
+    width:10px;
+    height:10px;
+}
+
+#consoleIcon {
+    color:white;
 }

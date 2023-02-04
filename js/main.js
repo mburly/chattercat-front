@@ -173,6 +173,33 @@ function listeners() {
         }
     
     });
+    
+    $('body').on('click', '.channel-emotes-button',function() {
+        var channel = $(this).attr('id').split('-')[0];
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "php/emotes.php", false);
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        var jsonPayload = '{"channel":"' + channel + '"}';
+        xhr.send(jsonPayload);
+        var data = JSON.parse(xhr.responseText);
+        remove(state);
+        $('body').append('<div id="channelEmotes"><div class="window" id="channelEmotesWindow"><div class="title-bar"><div class="title-bar-text">' + channel + ' - Emotes</div></div><div class="window-body"><ul class="channel-emotes">');
+        for(let i = 0; i < data["codes"].length; i++) {
+            var source = "Twitch";
+            if(data["sources"][i] == 3 || data["sources"][i] == 4) {
+                source = "FFZ";
+            }
+            else if(data["sources"][i] == 5 || data["sources"][i] == 6) {
+                source = "BTTV";
+            }
+            $('.channel-emotes').append('<li class="channel-emotes-list-emote"><div class="channel-emote-holder"><img class="channel-emote channel-emote-image" src="' + data["paths"][i] + '"><span class="channel-emote-name">' + data["codes"][i] + '</span><span class="channel-emote-type ' + source + '-emote" style="margin-top:5px;">' + source + '</span></div></li>');
+        }
+        state = "channelEmotes";
+    });
+
+    $('body').on('click', '.channel-emote-image',function() {
+        window.location.href = $(this).attr("src");
+    });
 }
 
 function loadChannelPage(id)
@@ -213,24 +240,24 @@ function loadChannelPage(id)
                 console.log(date);
                 if(i == 0) {
                     if(log_data[id]["type"] == "disabled") {
-                        $('.emote-log').append('<li class="log-item"><span class="badge log-date">' + date +'</span><img class="channel-icon log-icon" src="pictures/' + channel + '.png"><span class="channel-name log-channel-name">' + channel + '</span><span class="log-type text-disabled">disabled</span><div class="tooltip-bottom"><img class="emote log-emote" src="' + log_data[id]["path"] +'"><span class="tooltiptext"><img class="emote-tooltip" id="' + log_data[id]["path"] + '-tooltip" src="../' + log_data[id]["path"] + '"></span></div><span class="emote-name log-emote-name">' + log_data[id]["emote"] +'</span></li>');
+                        $('.emote-log').append('<li class="log-item"><span class="badge log-date">' + date +'</span><img class="channel-icon log-icon" src="pictures/' + channel + '.png"><span class="channel-name log-channel-name">' + channel + '</span><span class="log-type text-disabled">disabled</span><div class="tooltip-bottom"><img class="emote log-emote" src="' + log_data[id]["path"] +'"><span class="tooltiptext"><img class="emote-tooltip" id="' + log_data[id]["path"] + '-tooltip" src="' + log_data[id]["path"] + '"></span></div><span class="emote-name log-emote-name">' + log_data[id]["emote"] +'</span></li>');
                     }
                     else if(log_data[id]["type"] == "enabled") {
-                        $('.emote-log').append('<li class="log-item"><span class="badge log-date">' + date +'</span><img class="channel-icon log-icon" src="pictures/' + channel + '.png"><span class="channel-name log-channel-name">' + channel + '</span><span class="log-type text-enabled">enabled</span><div class="tooltip-bottom"><img class="emote log-emote" src="' + log_data[id]["path"] +'"><span class="tooltiptext"><img class="emote-tooltip" id="' + log_data[id]["path"] + '-tooltip" src="../' + log_data[id]["path"] + '"></span></div><span class="emote-name log-emote-name">' + log_data[id]["emote"] +'</span></li>');
+                        $('.emote-log').append('<li class="log-item"><span class="badge log-date">' + date +'</span><img class="channel-icon log-icon" src="pictures/' + channel + '.png"><span class="channel-name log-channel-name">' + channel + '</span><span class="log-type text-enabled">enabled</span><div class="tooltip-bottom"><img class="emote log-emote" src="' + log_data[id]["path"] +'"><span class="tooltiptext"><img class="emote-tooltip" id="' + log_data[id]["path"] + '-tooltip" src="' + log_data[id]["path"] + '"></span></div><span class="emote-name log-emote-name">' + log_data[id]["emote"] +'</span></li>');
                     }
                     else {
-                        $('.emote-log').append('<li class="log-item"><span class="badge log-date">' + date +'</span><img class="channel-icon log-icon" src="pictures/' + channel + '.png"><span class="channel-name log-channel-name">' + channel + '</span><span class="log-type text-reactivated">reactivated</span><div class="tooltip-bottom"><img class="emote log-emote" src="' + log_data[id]["path"] +'"><span class="tooltiptext"><img class="emote-tooltip" id="' + log_data[id]["path"] + '-tooltip" src="../' + log_data[id]["path"] + '"></span></div><span class="emote-name log-emote-name">' + log_data[id]["emote"] +'</span></li>');
+                        $('.emote-log').append('<li class="log-item"><span class="badge log-date">' + date +'</span><img class="channel-icon log-icon" src="pictures/' + channel + '.png"><span class="channel-name log-channel-name">' + channel + '</span><span class="log-type text-reactivated">reactivated</span><div class="tooltip-bottom"><img class="emote log-emote" src="' + log_data[id]["path"] +'"><span class="tooltiptext"><img class="emote-tooltip" id="' + log_data[id]["path"] + '-tooltip" src="' + log_data[id]["path"] + '"></span></div><span class="emote-name log-emote-name">' + log_data[id]["emote"] +'</span></li>');
                     }
                 }
                 else {
                     if(log_data[id]["type"] == "disabled") {
-                        $('.emote-log').append('<li class="log-item"><span class="badge log-date">' + date +'</span><img class="channel-icon log-icon" src="pictures/' + channel + '.png"><span class="channel-name log-channel-name">' + channel + '</span><span class="log-type text-disabled">disabled</span><div class="tooltip-top"><img class="emote log-emote" src="' + log_data[id]["path"] +'"><span class="tooltiptext"><img class="emote-tooltip" id="' + log_data[id]["path"] + '-tooltip" src="../' + log_data[id]["path"] + '"></span></div><span class="emote-name log-emote-name">' + log_data[id]["emote"] +'</span></li>');
+                        $('.emote-log').append('<li class="log-item"><span class="badge log-date">' + date +'</span><img class="channel-icon log-icon" src="pictures/' + channel + '.png"><span class="channel-name log-channel-name">' + channel + '</span><span class="log-type text-disabled">disabled</span><div class="tooltip-top"><img class="emote log-emote" src="' + log_data[id]["path"] +'"><span class="tooltiptext"><img class="emote-tooltip" id="' + log_data[id]["path"] + '-tooltip" src="' + log_data[id]["path"] + '"></span></div><span class="emote-name log-emote-name">' + log_data[id]["emote"] +'</span></li>');
                     }
                     else if(log_data[id]["type"] == "enabled") {
-                        $('.emote-log').append('<li class="log-item"><span class="badge log-date">' + date +'</span><img class="channel-icon log-icon" src="pictures/' + channel + '.png"><span class="channel-name log-channel-name">' + channel + '</span><span class="log-type text-enabled">enabled</span><div class="tooltip-top"><img class="emote log-emote" src="' + log_data[id]["path"] +'"><span class="tooltiptext"><img class="emote-tooltip" id="' + log_data[id]["path"] + '-tooltip" src="../' + log_data[id]["path"] + '"></span></div><span class="emote-name log-emote-name">' + log_data[id]["emote"] +'</span></li>');
+                        $('.emote-log').append('<li class="log-item"><span class="badge log-date">' + date +'</span><img class="channel-icon log-icon" src="pictures/' + channel + '.png"><span class="channel-name log-channel-name">' + channel + '</span><span class="log-type text-enabled">enabled</span><div class="tooltip-top"><img class="emote log-emote" src="' + log_data[id]["path"] +'"><span class="tooltiptext"><img class="emote-tooltip" id="' + log_data[id]["path"] + '-tooltip" src="' + log_data[id]["path"] + '"></span></div><span class="emote-name log-emote-name">' + log_data[id]["emote"] +'</span></li>');
                     }
                     else {
-                        $('.emote-log').append('<li class="log-item"><span class="badge log-date">' + date +'</span><img class="channel-icon log-icon" src="pictures/' + channel + '.png"><span class="channel-name log-channel-name">' + channel + '</span><span class="log-type text-reactivated">reactivated</span><div class="tooltip-top"><img class="emote log-emote" src="' + log_data[id]["path"] +'"><span class="tooltiptext"><img class="emote-tooltip" id="' + log_data[id]["path"] + '-tooltip" src="../' + log_data[id]["path"] + '"></span></div><span class="emote-name log-emote-name">' + log_data[id]["emote"] +'</span></li>');
+                        $('.emote-log').append('<li class="log-item"><span class="badge log-date">' + date +'</span><img class="channel-icon log-icon" src="pictures/' + channel + '.png"><span class="channel-name log-channel-name">' + channel + '</span><span class="log-type text-reactivated">reactivated</span><div class="tooltip-top"><img class="emote log-emote" src="' + log_data[id]["path"] +'"><span class="tooltiptext"><img class="emote-tooltip" id="' + log_data[id]["path"] + '-tooltip" src="' + log_data[id]["path"] + '"></span></div><span class="emote-name log-emote-name">' + log_data[id]["emote"] +'</span></li>');
                     }
                 }
                 
@@ -297,9 +324,10 @@ function loadChannelPage(id)
         $('#emotesWindowBody').append("<ul>");
         for(let i = 0; i < data["topEmotePaths"].length; i++)
         {
-            $('#emotesWindowBody').append('<li class="emote-item"><div class="tooltip-top"><img class="emote" src="../' + data["topEmotePaths"][i] + '"><span class="tooltiptext"><img class="emote-tooltip" id="' + data["topEmoteCodes"][i] + '-tooltip" src="../' + data["topEmotePaths"][i] + '"></span></div><div class="emote-name-section"><span class="emote-name">' + data["topEmoteCodes"][i] + '</span></div>' + data["topEmoteCounts"][i].toLocaleString("en-US") + '</li>');
+            $('#emotesWindowBody').append('<li class="emote-item"><div class="tooltip-top"><img class="emote" src="' + data["topEmotePaths"][i] + '"><span class="tooltiptext"><img class="emote-tooltip" id="' + data["topEmoteCodes"][i] + '-tooltip" src="' + data["topEmotePaths"][i] + '"></span></div><div class="emote-name-section"><span class="emote-name">' + data["topEmoteCodes"][i] + '</span></div>' + data["topEmoteCounts"][i].toLocaleString("en-US") + '</li>');
         }
         $('#emotesWindowBody').append("</ul>");
+        $('#emotesWindowBody').append('<button class="channel-emotes-button" id="' + channel + '-ChannelEmotesButton">View ' + channel + '\'s emotes</button>');
         $('#emotesStatusBar').append('<p class="status-bar-field"><span class="status-bar-right">Total emotes: ' + data["totalEmotes"].toLocaleString("en-US") + '</span></p>');
         hide("emotesLoad");
 

@@ -184,11 +184,11 @@ function loadAdmins() {
         for(let i = 0; i < data["usernames"].length; i++) {
             if(data["roles"][i] == 1) {
                 var sa_icon = '<span class="fa-layers fa-fw prefix-icon-fixed"><i class="fas fa-certificate sa-icon"></i> <span class="fa-layers-text fa-inverse" data-fa-transform="right-8 up-1" style="font-weight:900;font-size:8px;">SA</span></span>';
-                $('.admin-list').append('<li class="admin"><img src="images/user_offline.gif">' + sa_icon + '<span class="admin-name">' + data["usernames"][i] + '</span></li>');
+                $('.admin-list').append('<li class="admin"><img src="images/user_offline.gif" title="user is offline">' + sa_icon + '<span class="admin-name">' + data["usernames"][i] + '</span></li>');
             }
             else {
                 var a_icon = '<span class="fa-layers fa-fw fa-fw prefix-icon-fixed"><i class="fas fa-badge a-icon"></i><span class="fa-layers-text fa-inverse" data-fa-transform="right-6 up-1" style="font-weight:900;font-size:10px;color:white;">A</span></span>';
-                $('.admin-list').append('<li class="admin"><img src="images/user_offline.gif">' + a_icon + '<span class="admin-name">' + data["usernames"][i] + '</li>');
+                $('.admin-list').append('<li class="admin"><img src="images/user_offline.gif" title="user is offline">' + a_icon + '<span class="admin-name">' + data["usernames"][i] + '</li>');
             }
         }
     });
@@ -209,7 +209,7 @@ function loadStatus() {
 }
 
 function loadTools() {
-    $('#content-admin').append('<span class="admin-title"><img class="admin-tools-icon" src="images/admin-tools-icon.png">Admin Actions</span><ul class="actions-list"><li class="admin-button"><button class="admin-action-button" id="adminProfanityButton">Profanity</button></li><li class="admin-button"><button class="admin-action-button" id="adminChannelsButton">Manage channels</button></li><li class="admin-button"><button class="admin-action-button" id="adminUsersButton">Manage users</button></li></ul>');
+    $('#content-admin').append('<span class="admin-title"><img class="admin-tools-icon" src="images/admin-tools-icon.png"><span class="admin-title-text">Admin Actions</span></span><ul class="actions-list"><li class="admin-button"><button class="admin-action-button" id="adminProfanityButton">Profanity</button></li><li class="admin-button"><button class="admin-action-button" id="adminChannelsButton">Manage channels</button></li><li class="admin-button"><button class="admin-action-button" id="adminUsersButton">Manage users</button></li><li class="admin-button"><button class="admin-action-button" id="adminArchiveButton">Archive database</button></li></ul>');
 }
 
 function hide(id) {
