@@ -594,6 +594,7 @@ hr {
 .login-text {
     color:black;
     font-weight:700;
+    width:60px;
 }
 
 #loginButton {
@@ -1016,4 +1017,8 @@ hr {
 
 .channel {
     padding:3px;
+}
+
+#loginWindowBody {
+    padding:5px;
 }
