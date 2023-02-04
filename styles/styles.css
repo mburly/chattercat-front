@@ -369,8 +369,8 @@ hr {
 
 .login-icon {
     width:32px;
-    float:right;
     user-select: none;
+    vertical-align: bottom;
 }
 
 .login-icon:hover {
@@ -1175,4 +1175,20 @@ hr {
     margin-top:5px;
     border-radius:8%;
     font-weight:700;
+}
+
+.icon-group {
+    float:right;
+}
+
+.icon-group-member:not(:first-child) {
+    margin-left:5px;
+}
+
+.fa-github-square {
+    vertical-align: super;
+}
+
+.fa-github-square:hover {
+    cursor:pointer;
 }

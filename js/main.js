@@ -210,9 +210,13 @@ function listeners() {
         state = "channelEmotes";
     });
 
-    $("body").on("mousedown", '.channel-name', function (e) {
+    $('body').on("mousedown", '.channel-name', function (e) {
         e.preventDefault();
         $(this).addClass("mouse-down");
+    });
+
+    $('body').on('click', '.fa-github-square', function() {
+        window.open("https://www.github.com/mburly", "_blank");
     });
 }
 
