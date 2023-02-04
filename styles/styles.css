@@ -960,9 +960,11 @@ hr {
     margin-top:3px;
     color:purple;
     font-weight:700;
+    overflow:hidden;
+    text-overflow: ellipsis;
 }
 
-.Twitch-emote {
+.Twitch-emote, .Subscriber-emote {
     background-color:purple;
     color:white;
     margin-top:5px;
@@ -998,10 +1000,6 @@ hr {
     display:block;
 }
 
-.channel-emote-image:hover {
-    cursor:pointer;
-}
-
 .logo-icon-title {
     width:10px;
     height:10px;
@@ -1021,4 +1019,12 @@ hr {
 
 #loginWindowBody {
     padding:5px;
+}
+
+.mouse-down {
+    cursor:progress;
+}
+
+#channelEmotesWindow {
+    margin-top:50px;
 }

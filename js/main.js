@@ -10,6 +10,10 @@ function appendButtons(id)
     $('#' + id).append('<li><div class="action-group"><button class="channel-emotes-button" id="' + channel + '-ChannelEmotesButton">View ' + channel + '\'s emotes</button></div></li>');
 }
 
+function callChannelEmotes(channel, data) {
+
+}
+
 function callIndex() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     $.get("php/index.php", function(data, status) {
@@ -25,7 +29,7 @@ function callIndex() {
                 var streamStartDatetime = data[channelName]["streamStartDate"].split(' ');
                 var streamStart = new Date(streamStartDatetime[0] + "T" + streamStartDatetime[1] + "Z");  // passing in ISO 8601 format
                 var now = new Date();
-                $('.channels').append('<li class="channel" id="channel-' + channelName + '"><span class="channel-select" id="' + selectId + '"><img class="channel-icon" src="pictures/' + channelName + '.png"><span class="channel-name live-channel">' + channelName + '</span></span><div class="selector main-selector" id="' + channelName + '-selector"></div></li>');
+                $('.channels').append('<li class="channel" id="channel-' + channelName + '"><span class="channel-select" id="' + selectId + '"><img class="channel-icon" src="pictures/' + channelName + '.png"><span class="channel-name live-channel" id="' + channelName + '-channelName">' + channelName + '</span></span><div class="selector main-selector" id="' + channelName + '-selector"></div></li>');
                 $('.channels').append('<ul class="channel-info" id="' + infoId + '" style="display:none;"><li><span class="stream-title">' + data[channelName]['title'] + '</span></li>');
                 $('#' + infoId).append('<li class="stream-info"><span class="info-property">Time live:</span><span class="info-value">' + msToTime(now-streamStart) + '</span></li>');
                 $('#' + infoId).append('<li class="stream-info"><span class="info-property">Category:</span><span class="info-value">' + data[channelName]['category'] + '</span></li>');
@@ -86,10 +90,8 @@ function listeners() {
     });
     
     $('body').on('click','.channel-select',function(){
-        document.body.style.cursor = 'wait';
         var id = $(this).attr('id').split('-')[0];
         loadChannelPage(id);
-        document.body.style.cursor = 'default';
         state = "statsPage";
     });
     
@@ -178,7 +180,6 @@ function listeners() {
     });
     
     $('body').on('click', '.channel-emotes-button',function() {
-        document.body.style.cursor = 'wait';
         var channel = $(this).attr('id').split('-')[0];
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "php/emotes.php", false);
@@ -192,23 +193,26 @@ function listeners() {
         else {
             remove(state);
         }
-        document.body.style.cursor = 'default';
         $('body').append('<div id="channelEmotes"><div class="window" id="channelEmotesWindow"><div class="title-bar"><div class="title-bar-text">' + channel + ' - Emotes</div></div><div class="window-body"><ul class="channel-emotes">');
         for(let i = 0; i < data["codes"].length; i++) {
             var source = "Twitch";
-            if(data["sources"][i] == 3 || data["sources"][i] == 4) {
+            if(data["sources"][i] == 2) {
+                source = "Subscriber";
+            }
+            else if(data["sources"][i] == 3 || data["sources"][i] == 4) {
                 source = "FFZ";
             }
             else if(data["sources"][i] == 5 || data["sources"][i] == 6) {
                 source = "BTTV";
             }
-            $('.channel-emotes').append('<li class="channel-emotes-list-emote"><div class="channel-emote-holder"><img class="channel-emote channel-emote-image" src="' + data["paths"][i] + '"><span class="channel-emote-name">' + data["codes"][i] + '</span><span class="channel-emote-type ' + source + '-emote" style="margin-top:5px;">' + source + '</span></div></li>');
+            $('.channel-emotes').append('<li class="channel-emotes-list-emote"><div class="channel-emote-holder"><div class="tooltip-top"><img class="channel-emote channel-emote-image" src="' + data["paths"][i] + '"><span class="tooltiptext"><img class="emote-tooltip" id="' + data["codes"]["i"] + '-tooltip" src="' + data["paths"][i] + '"></span></div><span class="channel-emote-name" title="' + data["codes"][i] + '">' + data["codes"][i] + '</span><span class="channel-emote-type ' + source + '-emote" style="margin-top:5px;">' + source + '</span></div></li>');
         }
         state = "channelEmotes";
     });
 
-    $('body').on('click', '.channel-emote-image',function() {
-        window.location.href = $(this).attr("src");
+    $("body").on("mousedown", '.channel-name', function (e) {
+        e.preventDefault();
+        $(this).addClass("mouse-down");
     });
 }
 
@@ -417,6 +421,7 @@ function loadChannelPage(id)
         }
         $('#sessionsWindowBody').append('</ul>');
         hide("sessionsLoad");
+        $('#' + channel + '-channelName').removeClass("mouse-down");
 
     }
     catch(err) {

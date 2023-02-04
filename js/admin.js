@@ -59,7 +59,6 @@ class Counter {
 
 function loadConsole() {
     $.get("php/admin.php", function(data, status) {
-        console.log(data);
         var data = JSON.parse(data);
         if(data["error"] != "") {
             window.location.replace("index.html");
@@ -192,6 +191,7 @@ function loadAdmins() {
             }
         }
     });
+    remove('adminLoader');
 }
 
 function loadStatus() {
