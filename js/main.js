@@ -6,7 +6,8 @@ listeners();
 
 function appendButtons(id)
 {
-    $('#' + id).append('<li><div class="action-group"></div></li>');
+    var channel = id.split('-')[0];
+    $('#' + id).append('<li><div class="action-group"><button class="channel-emotes-button" id="' + channel + '-ChannelEmotesButton">View ' + channel + '\'s emotes</button></div></li>');
 }
 
 function callIndex() {
@@ -44,8 +45,8 @@ function callIndex() {
 
 function listeners() {
     $('body').on('click','.title',function(){
+        console.log(state);
         if(state == "main") {
-    
         }
         else {
             remove(state);
@@ -182,7 +183,12 @@ function listeners() {
         var jsonPayload = '{"channel":"' + channel + '"}';
         xhr.send(jsonPayload);
         var data = JSON.parse(xhr.responseText);
-        remove(state);
+        if(state == 'main') {
+            hide(state);
+        }
+        else {
+            remove(state);
+        }
         $('body').append('<div id="channelEmotes"><div class="window" id="channelEmotesWindow"><div class="title-bar"><div class="title-bar-text">' + channel + ' - Emotes</div></div><div class="window-body"><ul class="channel-emotes">');
         for(let i = 0; i < data["codes"].length; i++) {
             var source = "Twitch";
