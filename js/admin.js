@@ -49,7 +49,7 @@ class Counter {
 				obj.innerHTML = num.toLocaleString("en-US");
 				delay += delayOffset;
 				num += 1;
-				setTimeout(timerStep, delay/3);
+				setTimeout(timerStep, delay/7);
 			}
 		}
 		timerStep();
