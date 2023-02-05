@@ -1,3 +1,17 @@
+@media (max-width: 480px) {
+    .window-group-member:not(:first-child) {
+        margin-left:0px !important;
+    }
+
+    .sidebar {
+        position:inherit !important;
+    }
+
+    #main {
+        margin-top:0 !important;
+    }
+  }
+
 body {
     background:#c0c0c0;
 }

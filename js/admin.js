@@ -264,10 +264,10 @@ function loadAdmins() {
         var data = JSON.parse(data);
         for(let i = 0; i < data["usernames"].length; i++) {
             if(data["roles"][i] == 1) {
-                $('.admin-list').append('<li class="admin"><img src="images/user_offline.gif" title="user is offline"><img src="images/super-admin-icon.png"><span class="admin-name">' + data["usernames"][i] + '</span></li>');
+                $('.admin-list').append('<li class="admin"><img src="images/user_offline.gif" title="user is offline"><img src="images/super-admin-icon.png" title="Super Admin"><span class="admin-name">' + data["usernames"][i] + '</span></li>');
             }
             else {
-                $('.admin-list').append('<li class="admin"><img src="images/user_offline.gif" title="user is offline"><img src="images/admin-icon.png"><span class="admin-name">' + data["usernames"][i] + '</li>');
+                $('.admin-list').append('<li class="admin"><img src="images/user_offline.gif" title="user is offline"><img src="images/admin-icon.png" title="Admin"><span class="admin-name">' + data["usernames"][i] + '</li>');
             }
         }
     });
