@@ -1064,7 +1064,7 @@ hr {
 
 .manage-emotes-emote-image-col {
     width:24px;
-    height:32px;
+    height:45px;
 }
 
 .manage-emotes-emote-name-col {
@@ -1104,13 +1104,13 @@ hr {
 }
 
 .manage-emotes-emote-tools-col {
-    width:100px;
-    vertical-align: unset;
+    width:125px;
+    vertical-align: text-bottom;
     text-align:center;
 }
 
 .admin-tool:not(:first-child) {
-    margin-left:2px;
+    margin-left:4px;
 }
 
 .admin-tool:hover {
@@ -1125,14 +1125,25 @@ hr {
     width:32px;
 }
 
-.delete-tool {
+.delete-tool, .disable-tool {
     box-shadow:inset -1px -1px #0a0a0a,inset 1px 1px #fff,inset -2px -2px grey,inset 2px 2px #dfdfdf;
     background:darkred;
     color:white;
     padding:5px;
 }
 
-.delete-tool:active {
+.delete-tool:active, .disable-tool:active {
+    box-shadow:none;
+}
+
+.enable-tool {
+    box-shadow:inset -1px -1px #0a0a0a,inset 1px 1px #fff,inset -2px -2px grey,inset 2px 2px #dfdfdf;
+    background:darkgreen;
+    color:white;
+    padding:5px;
+}
+
+.enable-tool:active {
     box-shadow:none;
 }
 
@@ -1170,6 +1181,7 @@ hr {
 #manageEmotesHeaderRow {
     background-color:purple;
     color:white;
+    border-bottom:1px solid black;
 }
 
 .channel-emote {
@@ -1205,4 +1217,8 @@ hr {
 
 .fa-github-square:hover {
     cursor:pointer;
+}
+
+tr:nth-child(even) {
+    background-color: #d7d7d7;
 }

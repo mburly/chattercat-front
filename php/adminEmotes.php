@@ -35,6 +35,7 @@
         if($result->num_rows > 0) {
             $codes = '';
             $counts = '';
+            $emote_ids = '';
             $urls = '';
             $paths = '';
             $dates = '';
@@ -43,6 +44,7 @@
             while($emote = $result->fetch_assoc()) {
                 $codes .= '"' . addcslashes($emote["code"], '"\\/') . '",';
                 $counts .= $emote["count"] . ',';
+                $emote_ids .= '"' . addcslashes($emote["emote_id"], '"\\/') . '",';
                 $urls .= '"' . $emote["url"] . '",';
                 $paths .= '"' . $emote["path"] . '",';
                 $dates .= '"' . $emote["date_added"] . '",';
@@ -51,12 +53,13 @@
             }
             $codes = substr($codes, 0, -1);
             $counts = substr($counts, 0, -1);
+            $emote_ids = substr($emote_ids, 0, -1);
             $urls = substr($urls, 0, -1);
             $paths = substr($paths, 0, -1);
             $dates = substr($dates, 0, -1);
             $sources = substr($sources, 0, -1);
             $active = substr($active, 0, -1);
-            returnInfo($codes,$counts,$urls,$paths,$dates,$sources,$active);
+            returnInfo($codes,$counts,$emote_ids,$urls,$paths,$dates,$sources,$active);
         }
         else {
 
@@ -81,11 +84,12 @@
     }
     
     
-    function returnInfo($codes,$counts,$urls,$paths,$dates,$sources,$active)
+    function returnInfo($codes,$counts,$emote_ids,$urls,$paths,$dates,$sources,$active)
     {
         $retVal = '{';
         $retVal .= '"codes":[' . $codes . '],';
         $retVal .= '"counts":[' . $counts . '],';
+        $retVal .= '"emote_ids":[' . $emote_ids . '],';
         $retVal .= '"urls":[' . $urls . '],';
         $retVal .= '"paths":[' . $paths . '],';
         $retVal .= '"dates":[' . $dates . '],';

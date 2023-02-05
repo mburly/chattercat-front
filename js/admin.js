@@ -201,7 +201,7 @@ function listeners() {
             var jsonPayload = '{"channel" : "' + channel + '"}';
             xhr.send(jsonPayload);
             var data = JSON.parse(xhr.responseText);
-            $('body').append('<div class="window" id="adminManageEmotes"><div class="title-bar window-blue"><div class="title-bar-text">' + channel + ' - Manage Emotes</div></div><div class="window-body"><table class="admin-manage-emote-table" id="manageEmotesTable" style="background:#c6c6c6;"><tr id="manageEmotesHeaderRow"><th class="manage-emotes-col manage-emotes-emote-image-col"></th><th class="manage-emotes-col manage-emotes-emote-name-col">Name</th><th class="manage-emotes-col manage-emotes-emote-count-col">Usage</th><th class="manage-emotes-col manage-emotes-emote-url-col">URL</th><th class="manage-emotes-col manage-emotes-emote-path-col">Path</th><th class="manage-emotes-col manage-emotes-emote-date-col">Date added</th><th class="manage-emotes-col manage-emotes-emote-source-col">Source</th><th class="manage-emotes-col manage-emotes-emote-active-col">Active</th><th class="manage-emotes-col manage-emotes-emote-tools-col"></th></tr>');
+            $('body').append('<div class="window" id="adminManageEmotes"><div class="title-bar window-blue"><div class="title-bar-text">' + channel + ' - Manage Emotes</div></div><div class="window-body"><table class="admin-manage-emote-table" id="manageEmotesTable" style="background:#c6c6c6;"><tr id="manageEmotesHeaderRow"><th class="manage-emotes-col manage-emotes-emote-image-col"></th><th class="manage-emotes-col manage-emotes-emote-name-col">Name</th><th class="manage-emotes-col manage-emotes-emote-count-col">Usage</th><th class="manage-emotes-col manage-emotes-emote-url-col">URL</th><th class="manage-emotes-col manage-emotes-emote-path-col">Path</th><th class="manage-emotes-col manage-emotes-emote-date-col">Date added</th><th class="manage-emotes-col manage-emotes-emote-source-col">Source</th><th class="manage-emotes-col manage-emotes-emote-active-col">Active</th><th class="manage-emotes-col manage-emotes-emote-tools-col">Actions</th></tr>');
             for(let i = 0; i < data["codes"].length; i++) {
                 var dateTemp = data["dates"][i].split('-');
                 var date_addded = dateTemp[1] + '/' + dateTemp[2] + '/' + dateTemp[0];
@@ -227,11 +227,30 @@ function listeners() {
                 const dateCol = '<td class="manage-emotes-col manage-emotes-emote-date-col manage-emotes-emote-date-added">' + date_addded + '</td>';
                 const sourceCol = '<td class="manage-emotes-col manage-emotes-emote-source-col manage-emotes-emote-source ' + source + '-emote">' + source + '</td>';
                 const activeCol = '<td class="manage-emotes-col manage-emotes-emote-active-col manage-emotes-emote-active emote-' + active + '">' + active + '</td>';
-                const toolsCol = '<td class="manage-emotes-col manage-emotes-emote-tools-col manage-emotes-tools"><span class="admin-tool edit-tool" title="edit this emote"><i class="fas fa-cog"></i></span><span class="admin-tool download-tool" title="download this emote"><i class="fas fa-download"></i></span><span class="admin-tool delete-tool" title="delete this emote"><i class="fas fa-x"></i></span></td>';
+                var toolsCol = ''; 
+                if(active == "Enabled") {
+                    toolsCol = '<td class="manage-emotes-col manage-emotes-emote-tools-col manage-emotes-tools"><span class="admin-tool edit-tool" title="edit this emote"><i class="fas fa-cog"></i></span><span class="admin-tool download-tool" title="download this emote"><i class="fas fa-download"></i></span><span class="admin-tool disable-tool" id="' + channel + '-' + data["sources"][i] + '-' + data["emote_ids"][i] + '-disableButton" title="disable this emote"><i class="fas fa-cancel"></i></span><span class="admin-tool delete-tool" title="delete this emote"><i class="fas fa-x"></i></span></td>';
+                }
+                else {
+                    toolsCol = '<td class="manage-emotes-col manage-emotes-emote-tools-col manage-emotes-tools"><span class="admin-tool edit-tool" title="edit this emote"><i class="fas fa-cog"></i></span><span class="admin-tool download-tool" title="download this emote"><i class="fas fa-download"></i></span><span class="admin-tool enable-tool" id="' + channel + '-' + data["sources"][i] + '-' + data["emote_ids"][i] + '-enableButton" title="disable this emote"><i class="fas fa-check"></i></span><span class="admin-tool delete-tool" title="delete this emote"><i class="fas fa-x"></i></span></td>';
+                }
                 $('.admin-manage-emote-table').append('<tr class="manage-emote-row">' + imageCol + nameCol + countCol + urlCol + pathCol + dateCol + sourceCol + activeCol + toolsCol + '</tr>');
             }
             state = "adminManageEmotes";
         }
+    });
+
+    $('body').on('click', '.disable-tool', function(){
+        var id = $(this).attr('id').split('-');
+        var channel = id[0];
+        var source = id[1];
+        var emote_id = id[2];
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "php/adminEmoteUpdate.php", false);
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        var jsonPayload = '{"channel" : "' + channel + '","source" : ' + source + ',"emote_id" : "' + emote_id + '","new_value" : 0,"type" : "' + 'active"}';
+        xhr.send(jsonPayload);
+        window.location.reload();
     });
 }
 
