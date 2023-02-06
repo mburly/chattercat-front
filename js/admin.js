@@ -182,7 +182,7 @@ function listeners() {
                 }
                 $('#main').append('<div class="window" id="manageEmotesChannelSelect"><div class="title-bar window-blue"><div class="title-bar-text">Manage emotes - select a channel</div></div><div class="window-body"><ul class="admin-channel-list"></ul></div></div>');
                 for(let i = 0; i < data["channels"].length; i++) {
-                    $('.admin-channel-list').append('<li><span class="channel-select" id="' + data["channels"][i] + '-channelSelect"><img class="channel-icon" src="' + data["pictures"][i] + '"><span class="channel-name">' + data["channels"][i] + '</span></span></li>')
+                    $('.admin-channel-list').append('<li class="channel"><span class="channel-select" id="' + data["channels"][i] + '-channelSelect"><img class="channel-icon" src="' + data["pictures"][i] + '"><span class="channel-name">' + data["channels"][i] + '</span></span></li>')
                 }
                 state = "manageEmotesChannelSelect";
             });
@@ -229,7 +229,7 @@ function listeners() {
                 const activeCol = '<td class="manage-emotes-col manage-emotes-emote-active-col manage-emotes-emote-active emote-' + active + '">' + active + '</td>';
                 var toolsCol = ''; 
                 if(active == "Enabled") {
-                    toolsCol = '<td class="manage-emotes-col manage-emotes-emote-tools-col manage-emotes-tools"><span class="admin-tool edit-tool" title="edit this emote"><i class="fas fa-cog"></i></span><span class="admin-tool download-tool" title="download this emote"><i class="fas fa-download"></i></span><span class="admin-tool disable-tool" id="' + channel + '-' + data["sources"][i] + '-' + data["emote_ids"][i] + '-disableButton" title="disable this emote"><i class="fas fa-cancel"></i></span><span class="admin-tool delete-tool" title="delete this emote"><i class="fas fa-x"></i></span></td>';
+                    toolsCol = '<td class="manage-emotes-col manage-emotes-emote-tools-col manage-emotes-tools"><span class="admin-tool edit-tool" title="edit this emote"><i class="fas fa-cog"></i></span><a class="download-emote-link" href="' + data["urls"][i] + '" download target="_blank"><span class="admin-tool download-tool" title="download this emote"><i class="fas fa-download"></i></a></span><span class="admin-tool disable-tool" id="' + channel + '-' + data["sources"][i] + '-' + data["emote_ids"][i] + '-disableButton" title="disable this emote"><i class="fas fa-cancel"></i></span><span class="admin-tool delete-tool" title="delete this emote"><i class="fas fa-x"></i></span></td>';
                 }
                 else {
                     toolsCol = '<td class="manage-emotes-col manage-emotes-emote-tools-col manage-emotes-tools"><span class="admin-tool edit-tool" title="edit this emote"><i class="fas fa-cog"></i></span><span class="admin-tool download-tool" title="download this emote"><i class="fas fa-download"></i></span><span class="admin-tool enable-tool" id="' + channel + '-' + data["sources"][i] + '-' + data["emote_ids"][i] + '-enableButton" title="enable this emote"><i class="fas fa-check"></i></span><span class="admin-tool delete-tool" title="delete this emote"><i class="fas fa-x"></i></span></td>';

@@ -1123,8 +1123,9 @@ hr {
 
 .manage-emotes-emote-tools-col {
     width:125px;
-    vertical-align: text-bottom;
+    vertical-align: inherit;
     text-align:center;
+    height:fit-content;
 }
 
 .admin-tool:not(:first-child) {
@@ -1176,6 +1177,7 @@ hr {
     box-shadow:inset -1px -1px #0a0a0a,inset 1px 1px #fff,inset -2px -2px grey,inset 2px 2px #dfdfdf;
     background:darkblue;
     color:white;
+    margin-left:4px;
     padding:5px;
 }
 
