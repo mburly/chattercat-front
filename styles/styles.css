@@ -15,6 +15,10 @@
         width:250px !important;
         left:-20% !important;
     }
+
+    #channelEmotesWindow {
+        width:300px !important;
+    }
   }
 
 body {
@@ -635,6 +639,7 @@ hr {
 }
 
 .bad-login {
+    display:none;
     padding:5px;
     color:rgb(143, 0, 0);
 }
@@ -858,7 +863,8 @@ hr {
 }
 
 .log-type {
-    width:fit-content;
+    /* width:fit-content; */
+    width:75px;
     padding:3px;
 }
 

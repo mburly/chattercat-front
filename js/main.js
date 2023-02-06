@@ -165,7 +165,7 @@ function listeners() {
             var data = JSON.parse(xhr.responseText);
             if(data["error"] != "")
             {
-                $('#login').append('<span class="bad-login">Invalid login. Please try again.</span>');
+                show('badLoginText');
             }
             else
             {
@@ -458,7 +458,7 @@ function showLoginPage() {
     {
         hide(state);
     }
-    var login_page = '<div class="window" id="login"><div class="title-bar window-blue"><div class="title-bar-text"><i class="fas fa-user"></i>Chattercat - Log in</div></div><div class="window-body" id="loginWindowBody"><label for="uname"><span class="login-text">Username:</span></label><input id="username" type="text" placeholder="Enter Username" name="uname" autocomplete="off" required><p><label for="psw"><span class="login-text">Password:</span></label><input id="password" type="password" placeholder="Enter Password" name="psw" autocomplete="off" required><button type="submit" id="loginButton">Login</button></div></div>';
+    var login_page = '<div class="window" id="login"><div class="title-bar window-blue"><div class="title-bar-text"><i class="fas fa-user"></i>Chattercat - Log in</div></div><div class="window-body" id="loginWindowBody"><label for="uname"><span class="login-text">Username:</span></label><input id="username" type="text" placeholder="Enter Username" name="uname" autocomplete="off" required><p><label for="psw"><span class="login-text">Password:</span></label><input id="password" type="password" placeholder="Enter Password" name="psw" autocomplete="off" required><button type="submit" id="loginButton">Login</button></div><span class="bad-login" id="badLoginText">Invalid login. Please try again.</span></div>';
     $('body').append(login_page);
     state = "login";
 }
