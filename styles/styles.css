@@ -5,6 +5,7 @@
 
     .sidebar {
         position:inherit !important;
+        text-align: center !important;
     }
 
     .sidebar-content {
@@ -21,7 +22,6 @@
 
     #console-window {
         margin-top:25px !important;
-        width:275px !important;
     }
 
     .stats-section {
@@ -36,11 +36,23 @@
         left:-20% !important;
     }
 
-    #channelEmotesWindow {
-        width:295px !important;
+    #manageEmotesChannelSelect {
+        margin-top:25px !important;
     }
 
-    #manageEmotesChannelSelect {
+    #adminManageEmotes {
+        margin-top:25px !important;
+    }
+
+    .window-group-member:not(:first-child) {
+        margin-top:25px !important;
+    }
+
+    #mainAdminBody {
+        width: 285px !important;
+    }
+
+    .window {
         width:295px !important;
     }
   }
