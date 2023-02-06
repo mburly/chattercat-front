@@ -5,7 +5,9 @@
     $streams = array();
     while(!feof($streamsFile)) {
         $line = fgets($streamsFile);
-        array_push($streams, str_replace(array("\r", "\n"), '', $line));
+        if($line != "") {
+            array_push($streams, str_replace(array("\r", "\n"), '', $line));
+        }
     }
     fclose($streamsFile);
 

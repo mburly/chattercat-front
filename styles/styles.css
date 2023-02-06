@@ -848,7 +848,8 @@ hr {
 }
 
 .log-type {
-    width:65px;
+    width:fit-content;
+    padding:3px;
 }
 
 .text-enabled {
@@ -1221,4 +1222,9 @@ hr {
 
 tr:nth-child(even) {
     background-color: #d7d7d7;
+}
+
+#githubIcon {
+    color:black;
+    display:inline-block;
 }

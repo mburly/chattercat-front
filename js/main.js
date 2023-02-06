@@ -49,7 +49,6 @@ function callIndex() {
 
 function listeners() {
     $('body').on('click','.title',function(){
-        console.log(state);
         if(state == "main") {
         }
         else {
@@ -214,10 +213,6 @@ function listeners() {
         e.preventDefault();
         $(this).addClass("mouse-down");
     });
-
-    $('body').on('click', '.fa-github-square', function() {
-        window.open("https://www.github.com/mburly", "_blank");
-    });
 }
 
 function loadChannelPage(id)
@@ -245,17 +240,14 @@ function loadChannelPage(id)
             $('.emote-log').append('<div class="no-updates-text">No updates</div>');
         }
         else {
-            console.log(log_xhr.responseText);
             var log_data = JSON.parse(log_xhr.responseText);
             for(let i = 0; i < 20; i++) {
                 var id = 'log-' + i;
-                console.log(id);
                 if(log_data[id] == null) {
                     break;
                 }
                 var date = log_data[id]["datetime"].split(' ')[0].split('-');
                 date = date[1].replace('0','') + '/' + date[2].replace('0','') + '/' + date[0];
-                console.log(date);
                 if(i == 0) {
                     if(log_data[id]["type"] == "disabled") {
                         $('.emote-log').append('<li class="log-item"><span class="badge log-date">' + date +'</span><img class="channel-icon log-icon" src="pictures/' + channel + '.png"><span class="channel-name log-channel-name">' + channel + '</span><span class="log-type text-disabled">disabled</span><div class="tooltip-bottom"><img class="emote log-emote" src="' + log_data[id]["path"] +'"><span class="tooltiptext"><img class="emote-tooltip" id="' + log_data[id]["path"] + '-tooltip" src="' + log_data[id]["path"] + '"></span></div><span class="emote-name log-emote-name">' + log_data[id]["emote"] +'</span></li>');

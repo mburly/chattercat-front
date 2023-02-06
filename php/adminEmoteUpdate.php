@@ -30,13 +30,17 @@
     $col = $in["type"];
     $new_value = $in["new_value"];
 
-    // $db = 'cc_39daph';
     $conn = new mysqli($host, $user, $password, $db); 
     if($conn->connect_error) {
         returnWithError($conn->connect_error);
     }
     else {
-        $sql = 'UPDATE emotes SET ' . $col . ' = ' . $new_value . ' WHERE emote_id = "' . $emote_id . '" AND source = ' . $source . ';';
+        if($col == "count" || $col == "source" || $col == "active") {
+            $sql = 'UPDATE emotes SET ' . $col . ' = ' . $new_value . ' WHERE emote_id = "' . $emote_id . '" AND source = ' . $source . ';';
+        }
+        else {
+            $sql = 'UPDATE emotes SET ' . $col . ' = "' . $new_value . '" WHERE emote_id = "' . $emote_id . '" AND source = ' . $source . ';';            
+        }
         $conn->query($sql);
         returnInfo();
     }
