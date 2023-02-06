@@ -7,8 +7,28 @@
         position:inherit !important;
     }
 
+    .sidebar-content {
+        margin-top:0px !important;
+    }
+
     #main {
         margin-top:0 !important;
+    }
+
+    #main-admin {
+        width:300px !important;
+    }
+
+    #console-window {
+        margin-top:25px !important;
+        width:275px !important;
+    }
+
+    .stats-section {
+        display:block !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
+
     }
 
     #infoToolTip {
@@ -17,9 +37,17 @@
     }
 
     #channelEmotesWindow {
-        width:300px !important;
+        width:295px !important;
+    }
+
+    #manageEmotesChannelSelect {
+        width:295px !important;
     }
   }
+
+@media (max-width: 1024px) {
+
+}
 
 body {
     background:#c0c0c0;
