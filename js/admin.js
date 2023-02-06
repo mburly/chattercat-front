@@ -232,7 +232,7 @@ function listeners() {
                     toolsCol = '<td class="manage-emotes-col manage-emotes-emote-tools-col manage-emotes-tools"><span class="admin-tool edit-tool" title="edit this emote"><i class="fas fa-cog"></i></span><span class="admin-tool download-tool" title="download this emote"><i class="fas fa-download"></i></span><span class="admin-tool disable-tool" id="' + channel + '-' + data["sources"][i] + '-' + data["emote_ids"][i] + '-disableButton" title="disable this emote"><i class="fas fa-cancel"></i></span><span class="admin-tool delete-tool" title="delete this emote"><i class="fas fa-x"></i></span></td>';
                 }
                 else {
-                    toolsCol = '<td class="manage-emotes-col manage-emotes-emote-tools-col manage-emotes-tools"><span class="admin-tool edit-tool" title="edit this emote"><i class="fas fa-cog"></i></span><span class="admin-tool download-tool" title="download this emote"><i class="fas fa-download"></i></span><span class="admin-tool enable-tool" id="' + channel + '-' + data["sources"][i] + '-' + data["emote_ids"][i] + '-enableButton" title="disable this emote"><i class="fas fa-check"></i></span><span class="admin-tool delete-tool" title="delete this emote"><i class="fas fa-x"></i></span></td>';
+                    toolsCol = '<td class="manage-emotes-col manage-emotes-emote-tools-col manage-emotes-tools"><span class="admin-tool edit-tool" title="edit this emote"><i class="fas fa-cog"></i></span><span class="admin-tool download-tool" title="download this emote"><i class="fas fa-download"></i></span><span class="admin-tool enable-tool" id="' + channel + '-' + data["sources"][i] + '-' + data["emote_ids"][i] + '-enableButton" title="enable this emote"><i class="fas fa-check"></i></span><span class="admin-tool delete-tool" title="delete this emote"><i class="fas fa-x"></i></span></td>';
                 }
                 $('.admin-manage-emote-table').append('<tr class="manage-emote-row">' + imageCol + nameCol + countCol + urlCol + pathCol + dateCol + sourceCol + activeCol + toolsCol + '</tr>');
             }
@@ -249,6 +249,19 @@ function listeners() {
         xhr.open("POST", "php/adminEmoteUpdate.php", false);
         xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
         var jsonPayload = '{"channel" : "' + channel + '","source" : ' + source + ',"emote_id" : "' + emote_id + '","new_value" : 0,"type" : "' + 'active"}';
+        xhr.send(jsonPayload);
+        window.location.reload();
+    });
+
+    $('body').on('click', '.enable-tool', function(){
+        var id = $(this).attr('id').split('-');
+        var channel = id[0];
+        var source = id[1];
+        var emote_id = id[2];
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "php/adminEmoteUpdate.php", false);
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        var jsonPayload = '{"channel" : "' + channel + '","source" : ' + source + ',"emote_id" : "' + emote_id + '","new_value" : 1,"type" : "' + 'active"}';
         xhr.send(jsonPayload);
         window.location.reload();
     });

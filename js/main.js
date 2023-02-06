@@ -213,6 +213,10 @@ function listeners() {
         e.preventDefault();
         $(this).addClass("mouse-down");
     });
+
+    $('body').on('click', '.info-help-hide', function() {
+        remove('infoHelp');
+    });
 }
 
 function loadChannelPage(id)
@@ -301,7 +305,6 @@ function loadChannelPage(id)
                 $('#chatterLeaderboard').append('<li class="rank"><span class="rank-number">' + (i+1) + '</span><span class="rank-name"><span class="chatter-name">' + data["topChatterNames"][i] + "</span></span><span>" + data["topChatterCounts"][i].toLocaleString("en-US") + "</span></li>");
             }
         }
-        $('#chattersWindowBody').append('</ul>');
         $('#chattersWindowBody').append('<div class="list-group" id="recentChattersListGroup">');
         $('#recentChattersListGroup').append('<div class="list-group-header">Recent Chatters</div>');
         var groupCounter = 1;
@@ -331,26 +334,34 @@ function loadChannelPage(id)
 
         const emotesHead = '<div class="list-group-header">Top Emotes</div>';
         $('#emotesWindowBody').append(emotesHead);
-        $('#emotesWindowBody').append("<ul>");
+        $('#emotesWindowBody').append('<ul id="topEmotesList">');
+        var source = "Twitch";
         for(let i = 0; i < data["topEmotePaths"].length; i++)
         {
-            $('#emotesWindowBody').append('<li class="emote-item"><div class="tooltip-top"><img class="emote" src="' + data["topEmotePaths"][i] + '"><span class="tooltiptext"><img class="emote-tooltip" id="' + data["topEmoteCodes"][i] + '-tooltip" src="' + data["topEmotePaths"][i] + '"></span></div><div class="emote-name-section"><span class="emote-name">' + data["topEmoteCodes"][i] + '</span></div>' + data["topEmoteCounts"][i].toLocaleString("en-US") + '</li>');
+            if(data["topEmoteSources"][i] == 2) {
+                source = "Subscriber";
+            }
+            else if(data["topEmoteSources"][i] == 3 || data["topEmoteSources"][i] == 4) {
+                source = "FFZ";
+            }
+            else if(data["topEmoteSources"][i] == 5 || data["topEmoteSources"][i] == 6) {
+                source = "BTTV";
+            }
+            $('#topEmotesList').append('<li class="emote-item"><span class="emote-source ' + source + '-emote">' + source + '</span><div class="tooltip-top"><img class="emote" src="' + data["topEmotePaths"][i] + '"><span class="tooltiptext"><img class="emote-tooltip" id="' + data["topEmoteCodes"][i] + '-tooltip" src="' + data["topEmotePaths"][i] + '"></span></div><div class="emote-name-section"><span class="emote-name">' + data["topEmoteCodes"][i] + '</span></div><span class="emote-count">' + data["topEmoteCounts"][i].toLocaleString("en-US") + '</span></li>');
         }
-        $('#emotesWindowBody').append("</ul>");
         $('#emotesWindowBody').append('<button class="channel-emotes-button" id="' + channel + '-ChannelEmotesButton">View ' + channel + '\'s emotes</button>');
         $('#emotesStatusBar').append('<p class="status-bar-field"><span class="status-bar-right">Total emotes: ' + data["totalEmotes"].toLocaleString("en-US") + '</span></p>');
         hide("emotesLoad");
 
 
         $('#messagesWindowBody').append('<div class="list-group-header">Recent Messages</div>');
-        $('#messagesWindowBody').append('<ul>');
+        $('#messagesWindowBody').append('<ul id="recentMessagesList">');
         for(let i = 0; i < data["recentMessageMessages"].length; i++)
         {
             var recentMessageDatetime = data["recentMessageDatetimes"][i].split(' ');
             var recentMessageTime = new Date(recentMessageDatetime[0] + "T" + recentMessageDatetime[1] + "Z");
-            $('#messagesWindowBody').append('<li class="recent-messages"><span class="message-time">' + milToTime(recentMessageTime) + '</span><span class="message-name chatter-name">' + data["recentMessageNames"][i] + '</span>:<span class="message-message">' + data["recentMessageMessages"][i] + '</span></li>');
+            $('#recentMessagesList').append('<li class="recent-messages"><span class="message-time">' + milToTime(recentMessageTime) + '</span><span class="message-name chatter-name">' + data["recentMessageNames"][i] + '</span>:<span class="message-message">' + data["recentMessageMessages"][i] + '</span></li>');
         }
-        $('#messagesWindowBody').append('</ul>');
         if(data["recentSessionLengths"][0] == "null")
         {
             $('#messagesStatusBar').append('<p class="status-bar-field"><span class="status-bar-right">Messages this session: ' + data["recentSessionMessages"].toLocaleString("en-US") + '</span></p>');
@@ -367,7 +378,7 @@ function loadChannelPage(id)
 
         $('#sessionsWindowBody').append('<div class="list-group-header">Recent Sessions</div>');
         $('#sessionsWindowBody').append('<div class="action-group" id="sessionsActionGroup"><button class="action-button" id="sessionsExpandButton">Expand all</button><button class="action-button" id="sessionsCollapseButton">Collapse all</button></div>');
-        $('#sessionsWindowBody').append('<ul>');
+        $('#sessionsWindowBody').append('<ul id="recentSessionsList">');
         var currentSessionId = data["recentSegmentSessions"][0];
         var segmentCount = 0;
         var numSegmentsThisSession = 1;
@@ -380,15 +391,15 @@ function loadChannelPage(id)
             if(sessionLength == "null")
             {
                 sessionLength = "LIVE";
-                $('#sessionsWindowBody').append('<li class="session-item"><i class="fas fa-calendar-days prefix-icon";"></i><span class="session-start-date">' + sessionStartDatetime["date"] + '</span><i class="fas fa-clock prefix-icon"></i><span class="session-start-time">' + sessionStartDatetime["time"] + '</span><div class="live prefix-icon"><div class="circle pulse live-length"></div></div><span class="session-length live-length">' + sessionLength + '</span><div class="selector session-selector" id="' + channel + '-session-' + (i+1) + '"></div></li>');
+                $('#recentSessionsList').append('<li class="session-item"><i class="fas fa-calendar-days prefix-icon";"></i><span class="session-start-date">' + sessionStartDatetime["date"] + '</span><i class="fas fa-clock prefix-icon"></i><span class="session-start-time">' + sessionStartDatetime["time"] + '</span><div class="live prefix-icon"><div class="circle pulse live-length"></div></div><span class="session-length live-length">' + sessionLength + '</span><div class="selector session-selector" id="' + channel + '-session-' + (i+1) + '"></div></li>');
             }
             else
             {
                 sessionLength = lengthToTime(sessionLength);
-                $('#sessionsWindowBody').append('<li class="session-item"><i class="fas fa-calendar-days prefix-icon";"></i><span class="session-start-date">' + sessionStartDatetime["date"] + '</span><i class="fas fa-clock prefix-icon"></i><span class="session-start-time">' + sessionStartDatetime["time"] + '</span><i class="fas fa-timer prefix-icon"></i><span class="session-length">' + sessionLength + '</span><div class="selector session-selector" id="' + channel + '-session-' + (i+1) + '"></div></li>');
+                $('#recentSessionsList').append('<li class="session-item"><i class="fas fa-calendar-days prefix-icon";"></i><span class="session-start-date">' + sessionStartDatetime["date"] + '</span><i class="fas fa-clock prefix-icon"></i><span class="session-start-time">' + sessionStartDatetime["time"] + '</span><i class="fas fa-timer prefix-icon"></i><span class="session-length">' + sessionLength + '</span><div class="selector session-selector" id="' + channel + '-session-' + (i+1) + '"></div></li>');
             }
             var sessionId = data["recentSegmentSessions"][segmentCount];
-            $('#sessionsWindowBody').append('<div class="session-info" id="' + channel + '-session-' + (i+1) + '-info" style="display:none;">');
+            $('#recentSessionsList').append('<div class="session-info" id="' + channel + '-session-' + (i+1) + '-info" style="display:none;">');
             while(sessionId == currentSessionId)
             {
                 if(numSegmentsThisSession == 1)

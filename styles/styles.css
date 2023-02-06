@@ -10,6 +10,11 @@
     #main {
         margin-top:0 !important;
     }
+
+    #infoToolTip {
+        width:250px !important;
+        left:-20% !important;
+    }
   }
 
 body {
@@ -362,6 +367,10 @@ th {
     font-weight:700 !important;
     margin-left:5px;
     color:purple !important;
+    width:100px;
+    display:inline-block;
+    overflow:hidden;
+    text-overflow: ellipsis;
 }
 
 .emote-name:hover {
@@ -476,6 +485,7 @@ hr {
     text-overflow: ellipsis;
     overflow:hidden;
     margin-left:2px;
+    text-align:left;
 
 }
 
@@ -966,6 +976,7 @@ hr {
 .channel-emote {
     height:48px;
     width:48px;
+    vertical-align: text-top;
 }
 
 .channel-emote-name {
@@ -1227,4 +1238,71 @@ tr:nth-child(even) {
 #githubIcon {
     color:black;
     display:inline-block;
+}
+
+.info-help {
+    margin-top:10px;
+    margin-bottom:5px;
+    text-align:center;
+}
+
+.info-help-text {
+    text-decoration: underline;
+}
+
+.info-help-text:hover {
+    cursor:pointer;
+}
+
+.info-help-text-emphasis {
+    font-weight:700;
+}
+
+.info-help-text-name {
+    color:purple;
+}
+
+.info-help-text-emote {
+    color:orange;
+}
+
+#infoToolTip {
+    width:500px;
+    border:1px solid black;
+    left:-150%;
+}
+
+.color-bttv {
+    color:darkblue;
+}
+
+.color-ffz {
+    color:#935635;
+}
+
+.color-twitch {
+    color:purple;
+}
+
+.info-help-row {
+    width:100px;
+    display:inline-block;
+}
+
+.info-help-hide {
+    font-size:8px;
+}
+
+.info-help-hide:hover {
+    cursor:pointer;
+}
+
+.emote-count {
+    font-weight:700;
+}
+
+.emote-source {
+    display: inline-block;
+    width:80px;
+    margin-right:5px;
 }

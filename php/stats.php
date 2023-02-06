@@ -28,19 +28,22 @@
         returnWithError($conn->connect_error);
     }
     else {
-        $sql = "SELECT code, count, path FROM emotes GROUP BY code ORDER BY count DESC LIMIT 10;";
+        $sql = "SELECT code, count, path, source FROM emotes GROUP BY code ORDER BY count DESC LIMIT 10;";
         $result = $conn->query($sql);
         $topEmoteCodes = '';
         $topEmoteCounts = '';
         $topEmotePaths = '';
+        $topEmoteSources = '';
         while($emote = $result -> fetch_assoc()) {
             $topEmoteCodes .=  '"' . addcslashes($emote["code"], '"\\/'). '", ';
             $topEmoteCounts .=  '' . $emote["count"] . ', ';
             $topEmotePaths .= '"' . $emote["path"] . '", ';
+            $topEmoteSources .= '' . $emote["source"] . ', ';
         }
         $topEmoteCodes = substr($topEmoteCodes, 0, -2);
         $topEmoteCounts = substr($topEmoteCounts, 0, -2);
         $topEmotePaths = substr($topEmotePaths, 0, -2);
+        $topEmoteSources = substr($topEmoteSources, 0, -2);
 
         $sql = "SELECT COUNT(id) AS num_emotes FROM emotes;";
         $result = $conn->query($sql);
@@ -127,7 +130,7 @@
         $recentSegmentTitles = substr($recentSegmentTitles, 0, -2);
         $recentSegmentSessions = substr($recentSegmentSessions, 0, -2);
 
-        returnInfo($topEmoteCodes, $topEmotePaths, $topEmoteCounts, $numEmotes, $numChatters, $topChatterNames, $topChatterCounts, $recentChatterNames, $recentSessionMessageCount, $numMessages, $recentMessageNames, $recentMessageMessages, $recentMessageDatetimes, $recentSessionStartDatetimes, $recentSessionLengths, $recentSegmentCategories, $recentSegmentLengths, $recentSegmentTitles, $recentSegmentSessions);
+        returnInfo($topEmoteCodes, $topEmotePaths, $topEmoteCounts, $topEmoteSources, $numEmotes, $numChatters, $topChatterNames, $topChatterCounts, $recentChatterNames, $recentSessionMessageCount, $numMessages, $recentMessageNames, $recentMessageMessages, $recentMessageDatetimes, $recentSessionStartDatetimes, $recentSessionLengths, $recentSegmentCategories, $recentSegmentLengths, $recentSegmentTitles, $recentSegmentSessions);
     }
 
     function removeUnicode($string) {
@@ -157,9 +160,9 @@
         sendResultInfoAsJson($retVal);
     }
     
-    function returnInfo($topEmoteCodes, $topEmotePaths, $topEmoteCounts, $numEmotes, $numChatters, $topChatterNames, $topChatterCounts, $recentChatterNames, $recentSessionMessageCount, $numMessages, $recentMessageNames, $recentMessageMessages, $recentMessageDatetimes, $recentSessionStartDatetimes, $recentSessionLengths, $recentSegmentCategories, $recentSegmentLengths, $recentSegmentTitles, $recentSegmentSessions)
+    function returnInfo($topEmoteCodes, $topEmotePaths, $topEmoteCounts, $topEmoteSources, $numEmotes, $numChatters, $topChatterNames, $topChatterCounts, $recentChatterNames, $recentSessionMessageCount, $numMessages, $recentMessageNames, $recentMessageMessages, $recentMessageDatetimes, $recentSessionStartDatetimes, $recentSessionLengths, $recentSegmentCategories, $recentSegmentLengths, $recentSegmentTitles, $recentSegmentSessions)
     {
-        $retVal = '{"topChatterNames":[' . $topChatterNames . '],"topChatterCounts":[' . $topChatterCounts . '],"recentChatterNames":[' . $recentChatterNames . '],"recentMessageNames":[' . $recentMessageNames . '],"recentMessageMessages":[' . $recentMessageMessages . '],"recentMessageDatetimes":[' . $recentMessageDatetimes . '],"recentSessionStartDatetimes":[' . $recentSessionStartDatetimes . '],"recentSessionLengths":[' . $recentSessionLengths . '],"recentSegmentCategories":[' . $recentSegmentCategories . '],"recentSegmentLengths":[' . $recentSegmentLengths . '],"recentSegmentTitles":[' . $recentSegmentTitles . '],"recentSegmentSessions":[' . $recentSegmentSessions . '],"topEmoteCodes":[' . $topEmoteCodes . '],"topEmoteCounts":[' . $topEmoteCounts . '],"topEmotePaths":[' . $topEmotePaths . '],"totalChatters":' . $numChatters . ',"totalMessages":' . $numMessages . ',"recentSessionMessages":' . $recentSessionMessageCount . ',"totalEmotes":' . $numEmotes . ',"error":""}';
+        $retVal = '{"topChatterNames":[' . $topChatterNames . '],"topChatterCounts":[' . $topChatterCounts . '],"recentChatterNames":[' . $recentChatterNames . '],"recentMessageNames":[' . $recentMessageNames . '],"recentMessageMessages":[' . $recentMessageMessages . '],"recentMessageDatetimes":[' . $recentMessageDatetimes . '],"recentSessionStartDatetimes":[' . $recentSessionStartDatetimes . '],"recentSessionLengths":[' . $recentSessionLengths . '],"recentSegmentCategories":[' . $recentSegmentCategories . '],"recentSegmentLengths":[' . $recentSegmentLengths . '],"recentSegmentTitles":[' . $recentSegmentTitles . '],"recentSegmentSessions":[' . $recentSegmentSessions . '],"topEmoteCodes":[' . $topEmoteCodes . '],"topEmoteCounts":[' . $topEmoteCounts . '],"topEmotePaths":[' . $topEmotePaths . '],"topEmoteSources":[' . $topEmoteSources . '],"totalChatters":' . $numChatters . ',"totalMessages":' . $numMessages . ',"recentSessionMessages":' . $recentSessionMessageCount . ',"totalEmotes":' . $numEmotes . ',"error":""}';
         sendResultInfoAsJson($retVal);
     }
 
