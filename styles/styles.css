@@ -48,10 +48,6 @@
         margin-top:25px !important;
     }
 
-    #mainAdminBody {
-        width: 285px !important;
-    }
-
     .window {
         width:295px !important;
     }
@@ -82,6 +78,13 @@ a {
 
 th {
     text-align:center;
+}
+
+input {
+    width:fit-content;
+    color:black !important;
+    font-weight:normal !important;
+    text-decoration: none !important;
 }
 
 .title-bar {
@@ -408,9 +411,9 @@ th {
 }
 
 .emote-name {
-    font-weight:700 !important;
+    font-weight:700;
     margin-left:5px;
-    color:purple !important;
+    color:purple;
     width:100px;
     display:inline-block;
     overflow:hidden;
@@ -627,7 +630,7 @@ hr {
 }
 
 .sidebar {
-    left:200px;
+    left:185px;
     top:0;
     position:absolute;
     height:100%;
@@ -642,10 +645,6 @@ hr {
 .sidebar-window {
     width:220px;
 }
-
-/* .sidebar-window-body {
-    margin:0;
-} */
 
 .sidebar-window:not(:first-child) {
     margin-top:25px;
@@ -1108,6 +1107,10 @@ hr {
     text-decoration: underline;
 }
 
+.admin-sidebar-tool {
+    width:fit-content;
+}
+
 .admin-channel-list {
     padding:5px;
 }
@@ -1132,7 +1135,7 @@ hr {
 }
 
 .manage-emotes-emote-count-col {
-    width:25px;
+    width:75px;
 }
 
 .manage-emotes-emote-url-col {
@@ -1184,6 +1187,10 @@ hr {
     width:32px;
 }
 
+.manage-emotes-emote-source, .manage-emotes-emote-active {
+    vertical-align: baseline;
+}
+
 .delete-tool, .disable-tool {
     box-shadow:inset -1px -1px #0a0a0a,inset 1px 1px #fff,inset -2px -2px grey,inset 2px 2px #dfdfdf;
     background:darkred;
@@ -1195,14 +1202,14 @@ hr {
     box-shadow:none;
 }
 
-.enable-tool {
+.enable-tool, .edit-complete-tool {
     box-shadow:inset -1px -1px #0a0a0a,inset 1px 1px #fff,inset -2px -2px grey,inset 2px 2px #dfdfdf;
     background:darkgreen;
     color:white;
     padding:5px;
 }
 
-.enable-tool:active {
+.enable-tool:active, .edit-complete-tool:active {
     box-shadow:none;
 }
 
@@ -1263,7 +1270,11 @@ hr {
     font-weight:700;
 }
 
-.icon-group {
+.icon-group-left {
+    float:left;
+}
+
+.icon-group-right {
     float:right;
 }
 
@@ -1353,4 +1364,15 @@ tr:nth-child(even) {
     display: inline-block;
     width:80px;
     margin-right:5px;
+}
+
+#infoPageButton {
+    font-size:20px;
+    --fa-primary-color: white;
+    --fa-secondary-color: purple;
+    --fa-secondary-opacity:75%;
+}
+
+#infoPageButton:hover {
+    cursor:pointer;
 }

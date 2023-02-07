@@ -3,6 +3,12 @@ if(document.cookie == "") {
 }
 
 var state = "main";
+var _name = "";
+var _usage = "";
+var _url = "";
+var _path = "";
+var _dateAdded = "";
+
 window.onload = function() {
     startTime();
     loadStatus();
@@ -226,15 +232,15 @@ function listeners() {
                 const pathCol = '<td class="manage-emotes-col manage-emotes-emote-path-col manage-emotes-emote-path" title="' + data["paths"][i] + '">' + data["paths"][i] + '</td>';
                 const dateCol = '<td class="manage-emotes-col manage-emotes-emote-date-col manage-emotes-emote-date-added">' + date_addded + '</td>';
                 const sourceCol = '<td class="manage-emotes-col manage-emotes-emote-source-col manage-emotes-emote-source ' + source + '-emote">' + source + '</td>';
-                const activeCol = '<td class="manage-emotes-col manage-emotes-emote-active-col manage-emotes-emote-active emote-' + active + '">' + active + '</td>';
+                const activeCol = '<td class="manage-emotes-col manage-emotes-emote-active-col manage-emotes-emote-active emote-' + active + '" id="' + data["sources"][i] + '-' + data["emote_ids"][i] + '-active">' + active + '</td>';
                 var toolsCol = ''; 
                 if(active == "Enabled") {
-                    toolsCol = '<td class="manage-emotes-col manage-emotes-emote-tools-col manage-emotes-tools"><span class="admin-tool edit-tool" title="edit this emote"><i class="fas fa-cog"></i></span><a class="download-emote-link" href="' + data["urls"][i] + '" download target="_blank"><span class="admin-tool download-tool" title="download this emote"><i class="fas fa-download"></i></a></span><span class="admin-tool disable-tool" id="' + channel + '-' + data["sources"][i] + '-' + data["emote_ids"][i] + '-disableButton" title="disable this emote"><i class="fas fa-cancel"></i></span><span class="admin-tool delete-tool" title="delete this emote"><i class="fas fa-x"></i></span></td>';
+                    toolsCol = '<td class="manage-emotes-col manage-emotes-emote-tools-col manage-emotes-tools"><span class="admin-tool edit-tool" id="' + channel + '-' + data["sources"][i] + '-' + data["emote_ids"][i] + '-editButton" title="edit this emote"><i class="fas fa-cog"></i></span><a class="download-emote-link" href="' + data["urls"][i] + '" download target="_blank"><span class="admin-tool download-tool" title="download this emote"><i class="fas fa-download"></i></a></span><span class="admin-tool disable-tool" id="' + channel + '-' + data["sources"][i] + '-' + data["emote_ids"][i] + '-disableButton" title="disable this emote"><i class="fas fa-cancel"></i></span><span class="admin-tool delete-tool" id="' + channel + '-' + data["sources"][i] + '-' + data["emote_ids"][i] + '-deleteButton" title="delete this emote"><i class="fas fa-x"></i></span></td>';
                 }
                 else {
-                    toolsCol = '<td class="manage-emotes-col manage-emotes-emote-tools-col manage-emotes-tools"><span class="admin-tool edit-tool" title="edit this emote"><i class="fas fa-cog"></i></span><span class="admin-tool download-tool" title="download this emote"><i class="fas fa-download"></i></span><span class="admin-tool enable-tool" id="' + channel + '-' + data["sources"][i] + '-' + data["emote_ids"][i] + '-enableButton" title="enable this emote"><i class="fas fa-check"></i></span><span class="admin-tool delete-tool" title="delete this emote"><i class="fas fa-x"></i></span></td>';
+                    toolsCol = '<td class="manage-emotes-col manage-emotes-emote-tools-col manage-emotes-tools"><span class="admin-tool edit-tool" id="' + channel + '-' + data["sources"][i] + '-' + data["emote_ids"][i] + '-editButton" title="edit this emote"><i class="fas fa-cog"></i></span><a class="download-emote-link" href="' + data["urls"][i] + '" download target="_blank"><span class="admin-tool download-tool" title="download this emote"><i class="fas fa-download"></i></a></span><span class="admin-tool enable-tool" id="' + channel + '-' + data["sources"][i] + '-' + data["emote_ids"][i] + '-enableButton" title="enable this emote"><i class="fas fa-check"></i></span><span class="admin-tool delete-tool" id="' + channel + '-' + data["sources"][i] + '-' + data["emote_ids"][i] + '-deleteButton" title="delete this emote"><i class="fas fa-x"></i></span></td>';
                 }
-                $('.admin-manage-emote-table').append('<tr class="manage-emote-row">' + imageCol + nameCol + countCol + urlCol + pathCol + dateCol + sourceCol + activeCol + toolsCol + '</tr>');
+                $('.admin-manage-emote-table').append('<tr class="manage-emote-row" id="' + data["sources"][i] + '-' +  data["emote_ids"][i] + '-manageRow">' + imageCol + nameCol + countCol + urlCol + pathCol + dateCol + sourceCol + activeCol + toolsCol + '</tr>');
             }
             state = "adminManageEmotes";
         }
@@ -250,7 +256,15 @@ function listeners() {
         xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
         var jsonPayload = '{"channel" : "' + channel + '","source" : ' + source + ',"emote_id" : "' + emote_id + '","new_value" : 0,"type" : "' + 'active"}';
         xhr.send(jsonPayload);
-        window.location.reload();
+        id = $(this).attr('id').split('-');
+        var channel = id[0];
+        var source = id[1];
+        var emote_id = id[2];
+        var enableTool = '<span class="admin-tool enable-tool" id="' + channel + '-' + source + '-' + emote_id + '-enableButton" title="enable this emote"><i class="fas fa-check"></i></span>';
+        $(this)[0].outerHTML = enableTool;
+        var statusCol = '<td class="manage-emotes-col manage-emotes-emote-active-col manage-emotes-emote-active emote-Disabled" id="' + source + '-' + emote_id + '-active">Disabled</td>';
+        var statusColId = source + '-' + emote_id + '-active';
+        document.getElementById(statusColId).outerHTML = statusCol;
     });
 
     $('body').on('click', '.enable-tool', function(){
@@ -263,8 +277,159 @@ function listeners() {
         xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
         var jsonPayload = '{"channel" : "' + channel + '","source" : ' + source + ',"emote_id" : "' + emote_id + '","new_value" : 1,"type" : "' + 'active"}';
         xhr.send(jsonPayload);
-        window.location.reload();
+        id = $(this).attr('id').split('-');
+        var channel = id[0];
+        var source = id[1];
+        var emote_id = id[2];
+        var disableTool = '<span class="admin-tool disable-tool" id="' + channel + '-' + source + '-' + emote_id + '-disableButton" title="disable this emote"><i class="fas fa-cancel"></i></span>';
+        $(this)[0].outerHTML = disableTool; 
+        var statusCol = '<td class="manage-emotes-col manage-emotes-emote-active-col manage-emotes-emote-active emote-Enabled" id="' + source + '-' + emote_id + '-active">Enabled</td>';
+        var statusColId = source + '-' + emote_id + '-active';
+        document.getElementById(statusColId).outerHTML = statusCol;
     });
+
+    $('body').on('click', '.edit-tool', function(){
+        var id = $(this).attr('id');
+        var channel = id.split('-')[0];
+        var rowId = id.split(channel + '-')[1].split('-editButton')[0] + '-manageRow';
+        var fields = document.getElementById(rowId).children;
+        for (let i = 0; i < fields.length; i++) {
+            var field_text = fields[i].textContent;
+            tag = fields[i].outerHTML;
+            if(!isImageRow(tag) && !isToolsRow(tag) && !isSourceRow(tag) && !isActiveRow(tag)) {
+                if(isNameRow(tag)) {
+                    _name = fields[i].textContent;
+                }
+                else if(isUsageRow(tag)) {
+                    _usage = parseInt(fields[i].textContent);
+                }
+                else if(isUrlRow(tag)) {
+                    _url = fields[i].textContent;
+                }
+                else if(isPathRow(tag)) {
+                    _path = fields[i].textContent;
+                }
+                else if(isDateRow(tag)) {
+                    _dateAdded = fields[i].textContent;
+                }
+                fields[i].textContent = '';
+                tag = fields[i].outerHTML;
+                var new_tag = tag.replaceAll('td', 'input');
+                fields[i].outerHTML = new_tag;
+                fields[i].value = field_text;
+            }
+            else if(isToolsRow(tag)) {
+                var editCompleteTool = '<span class="admin-tool edit-complete-tool" id="' + id.split('-editButton')[0] + '-editCompleteTool" title="finish changes"><i class="fas fa-check"></i></span>';
+                if(isEmoteEnabled(fields[i].outerHTML)) {
+                    var editTool = fields[i].outerHTML.split('<td class="manage-emotes-col manage-emotes-emote-tools-col manage-emotes-tools">')[1].split('<a')[0];
+                }
+                else {
+                    var editTool = fields[i].outerHTML.split('<td class="manage-emotes-col manage-emotes-emote-tools-col manage-emotes-tools">')[1].split('<span class="admin-tool download-tool" title="download this emote">')[0];
+                }
+                fields[i].outerHTML = fields[i].outerHTML.replace(editTool, editCompleteTool);
+            }
+        }
+    });
+
+    $('body').on('click', '.edit-complete-tool', function() {
+        var id = $(this).attr('id');
+        var channel = id.split('-')[0];
+        var source = id.split('-')[1];
+        var emote_id = id.split('-')[2];
+        var rowId = id.split(channel + '-')[1].split('-editCompleteTool')[0] + '-manageRow';
+        var fields = document.getElementById(rowId).children;
+        var numChanges = 0;
+        var changes = '{"channel":"' + channel + '","source":' + source + ',"emote_id":"' + emote_id + '",';
+        for (let i = 0; i < fields.length; i++) {
+            var tag = fields[i].outerHTML;
+            if(isNameRow(tag)) {
+                if(fields[i].value != _name) {
+                    changes += '"code":"' + fields[i].value + '",';
+                    numChanges += 1;
+                }
+            }
+            else if(isUsageRow(tag)) {
+                if(parseInt(fields[i].value) != _usage) {
+                    changes += '"count":' + fields[i].value + ',';
+                    numChanges += 1;
+                }
+            }
+            else if(isUrlRow(tag)) {
+                if(fields[i].value != _url) {
+                    changes += '"url":"' + fields[i].value + '",';
+                    numChanges += 1;
+                }
+            }
+            else if(isPathRow(tag)) {
+                if(fields[i].value != _path) {
+                    changes += '"path":"' + fields[i].value + '",';
+                    numChanges += 1;
+                }
+            }
+            else if(isDateRow(tag)) {
+                if(fields[i].value != _dateAdded) {
+                    changes += '"date":"' + fields[i].value + '",';
+                    numChanges += 1;
+                }
+            }
+        }
+        if(numChanges > 0) {
+            changes = changes.slice(0, -1);
+            if(numChanges == 1) {
+                // php emote single update 
+                // adminEmoteUpdate.php
+
+                var column = changes.split(',')[3].split(':')[0];
+                changes = changes.replace(column, "\"new_value\"");
+                changes += ',"type":"' + column.replaceAll('\"',"") + '"}';
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "php/adminEmoteUpdate.php", false);
+                xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+                xhr.send(changes);
+            }
+            else {
+                // php emote multiple updates
+            }
+        }
+
+        var fields = document.getElementById(rowId).children;
+        for (let i = 0; i < fields.length; i++) {
+            tag = fields[i].outerHTML;
+            if(!isImageRow(tag) && !isToolsRow(tag) && !isSourceRow(tag) && !isActiveRow(tag)) {
+                var value = fields[i].value;
+                var new_tag = tag.replaceAll('input', 'td');
+                fields[i].outerHTML = new_tag;
+                fields[i].textContent = value;
+            }
+            else if(isToolsRow(tag)) {
+                var editTool = '<span class="admin-tool edit-tool" id="' + channel + '-' + source + '-' + emote_id + '-editButton" title="edit this emote"><i class="fas fa-cog"></i></span>';
+                if(isEmoteEnabled(fields[i].outerHTML)) {
+                    var editCompleteTool = fields[i].outerHTML.split('<td class="manage-emotes-col manage-emotes-emote-tools-col manage-emotes-tools">')[1].split('<a')[0];
+                }
+                else {
+                    var editCompleteTool = fields[i].outerHTML.split('<td class="manage-emotes-col manage-emotes-emote-tools-col manage-emotes-tools">')[1].split('<span class="admin-tool download-tool"')[0];
+                }
+                fields[i].outerHTML = fields[i].outerHTML.replace(editCompleteTool, editTool);
+            }
+        }
+
+    });
+
+    $('body').on('click', '.delete-tool', function() {
+        var id = $(this).attr('id').split('-');
+        var channel = id[0];
+        var source = id[1];
+        var emote_id = id[2];
+        var jsonPayload = '{"channel":"' + channel + '","source":' + source + ',"emote_id":"' + emote_id + '"}';
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "php/adminEmoteDelete.php", false);
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        xhr.send(jsonPayload);
+        console.log(xhr.responseText);
+        var rowId = $(this).attr('id').split(channel + '-')[1].split('-deleteButton')[0] + '-manageRow';
+        remove(rowId);
+    });
+
 }
 
 function loadMainData() {
@@ -341,6 +506,46 @@ function show(id) {
     $('#' + id).css("display", "block");
 }
 
+function isImageRow(html) {
+    return html.split('manage-emotes-emote-image').length > 1;
+}
+
+function isNameRow(html) {
+    return html.split('manage-emotes-emote-name').length > 1;
+}
+
+function isUsageRow(html) {
+    return html.split('manage-emotes-emote-count').length > 1;
+}
+
+function isUrlRow(html) {
+    return html.split('manage-emotes-emote-url').length > 1;
+}
+
+function isPathRow(html) {
+    return html.split('manage-emotes-emote-path').length > 1;
+}
+
+function isDateRow(html) {
+    return html.split('manage-emotes-emote-date-added').length > 1;
+}
+
+function isToolsRow(html) {
+    return html.split('manage-emotes-tools').length > 1;
+}
+
+function isActiveRow(html) {
+    return html.split('manage-emotes-emote-active').length > 1;
+}
+
+function isSourceRow(html) {
+    return html.split('manage-emotes-emote-source').length > 1;
+}
+
+function isEmoteEnabled(html) {
+    return html.split('disable this emote').length > 1;
+}
+
 function startTime() {
     const today = new Date();
     let h = today.getUTCHours();
@@ -352,7 +557,7 @@ function startTime() {
     setTimeout(startTime, 1000);
   }
   
-  function checkTime(i) {
-    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-    return i;
-  }
+function checkTime(i) {
+if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+return i;
+}
