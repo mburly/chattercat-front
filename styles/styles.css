@@ -6,6 +6,8 @@
     .sidebar {
         position:inherit !important;
         text-align: center !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
     }
 
     .sidebar-content {
@@ -922,11 +924,6 @@ hr {
     color:#6c757d;
 }
 
-#updatesPanel {
-    width:315px;
-    margin-top:25px;
-}
-
 .admin {
     margin-top:5px;
 }
@@ -946,7 +943,6 @@ hr {
 
 #updatesPanel {
     width:fit-content;
-    margin-top:50px;
     overflow:scroll;
     max-height:200px;
     height:200px;
